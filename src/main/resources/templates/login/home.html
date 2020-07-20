@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <center>
 	<html xmlns:th="http://www.thymeleaf.org">
 	<head>
@@ -8,8 +10,36 @@
 		<title>ホーム</title>
 		</head>
 		<body class="text-center">
+		<div th:fragment="userList_contents">
 		<h1>ホーム</h1><br>
 		<h1>気になる方に「いいね」してみましょう。</h1>
+		
+	<table class="table table-bordered table-hover table-striped">
+	<tr>
+		<th class="info col-sm-2">ID</th>
+		<th class="info col-sm-2">状態</th>
+		</tr>
+		<tr th:each="user : ${userList}">
+		<td th:text="${user.matchingid}"></td>
+		<td th:text="${user.state}"></td>
+
+	<td>
+			<a class="btn btn-primary" th:href="@{'/userDetail/' + ${user.userId}}">
+			詳細
+			</a>
+		</td>
+		</tr>
+	</table>
+		
+		<form method="post" th:action="@{/logout}">
+		<button class="btn btn-link pull-right navbar-brand" type="submit">
+		ログアウト
+		</button>
+		
+		
+		
+
+	</form>
 	</body>
 </center>
 </html>

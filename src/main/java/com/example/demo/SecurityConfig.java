@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +25,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private DataSource dataSource;
-	private static final String MEMBER_SQL = "SELECT mailaddress, password FROM members WHERE mailaddress = ?";
+	private static final String MEMBER_SQL = "SELECT mailaddress, password, true FROM members WHERE mailaddress = ?";
+
+	private static final String ROLE_SQL = "SELECT"
+	+ " mailaddress,"
+	+ " role"
+	+ " FROM"
+	+ " members"
+	+ " WHERE"
+	+ " mailaddress = ?";
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -51,6 +60,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.usernameParameter("mailaddress")
 		.passwordParameter("password")
 		.defaultSuccessUrl("/home", true);
+
+	//ログアウト処理
+	http
+	.logout()
+	.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+	.logoutUrl("/logout")
+	.logoutSuccessUrl("/login");
 	}
 
 		@Override
@@ -59,7 +75,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			auth.jdbcAuthentication()
 			.dataSource(dataSource)
 			.usersByUsernameQuery(MEMBER_SQL)
+			.authoritiesByUsernameQuery(ROLE_SQL)
 			.passwordEncoder(passwordEncoder());
-			
+
 	}
 }

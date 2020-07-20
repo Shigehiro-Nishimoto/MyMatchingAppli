@@ -13,5 +13,7 @@ public class User {
 	private Date birthday;
 	private String mailaddress;
 	private String password;
+	private int matchingid;
+	private int state;
 	
 }

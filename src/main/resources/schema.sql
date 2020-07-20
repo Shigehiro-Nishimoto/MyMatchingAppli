@@ -1,4 +1,4 @@
-/*会員様マスター*/
+/*登録者マスター*/
 
 CREATE TABLE IF NOT EXISTS members(
 id INT PRIMARY KEY,
@@ -6,5 +6,15 @@ name VARCHAR(30),
 sex BOOLEAN,
 birthday DATE,
 mailaddress VARCHAR(30),
-password VARCHAR(100)
+password VARCHAR(100),
+role VARCHAR(20)
+);
+
+/*マッチング表*/
+
+CREATE TABLE IF NOT EXISTS matchings(
+matchingid INT PRIMARY KEY,
+maleid INT,
+femaleid INT,
+state  INT
 );
