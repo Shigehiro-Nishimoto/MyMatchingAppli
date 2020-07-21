@@ -11,11 +11,12 @@ import com.example.demo.login.domain.repository.UserDao;
 @Service
 public class UserService {
 	
-	@Autowired
-	UserDao dao;
+@Autowired
+UserDao dao;
 
-	public List<User> selectMany() {
-		return dao.selectMany();
-		}
+public List<User> selectMany() {
+return dao.selectMany();
 
+
+	}
 }

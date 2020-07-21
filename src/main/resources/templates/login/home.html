@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<center>
-	<html xmlns:th="http://www.thymeleaf.org">
+
 	<head>
 		<meta charset="UTF-8">
 		<link th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet">
@@ -22,14 +21,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<tr th:each="user : ${userList}">
 		<td th:text="${user.matchingid}"></td>
 		<td th:text="${user.state}"></td>
-
-	<td>
-			<a class="btn btn-primary" th:href="@{'/userDetail/' + ${user.userId}}">
-			詳細
-			</a>
-		</td>
 		</tr>
 	</table>
+	</div>
 		
 		<form method="post" th:action="@{/logout}">
 		<button class="btn btn-link pull-right navbar-brand" type="submit">
@@ -41,5 +35,4 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 	</form>
 	</body>
-</center>
 </html>

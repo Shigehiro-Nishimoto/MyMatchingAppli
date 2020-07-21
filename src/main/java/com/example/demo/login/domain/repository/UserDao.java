@@ -10,8 +10,6 @@ import com.example.demo.login.domain.model.User;
 @Repository
 public interface UserDao {
 
-public int count() throws DataAccessException;
-
 public List<User> selectMany() throws DataAccessException;
 
 }

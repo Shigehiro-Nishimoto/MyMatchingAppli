@@ -19,16 +19,9 @@ public class HomeController {
 	//ホーム画面のGETメソッド
 	@GetMapping("/home")
 	public String getHome(Model model) {
+		model.addAttribute("contents", "login/home :: userList_contents");
+		List<User> userList = userService.selectMany();
+		model.addAttribute("userList", userList);
 		return "login/home";
-	}
-	
-	
-	@GetMapping("/home")
-	public String getUserList( Model model) {
-
-	model.addAttribute("contents", "login/home :: userList_ contents");
-	List<User> userList = userService.selectMany();
-	model.addAttribute("userList", userList);
-	return "login/home";
 	}
 }
