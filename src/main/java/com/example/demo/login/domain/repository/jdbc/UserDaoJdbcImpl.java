@@ -22,11 +22,18 @@ JdbcTemplate jdbc;
 public List<User> selectMany() throws DataAccessException {
 	List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM matchings");
 	List<User> userList = new ArrayList<>();
+	
 	for(Map<String, Object> map:getList) {
+		
 		User user = new User();
 		user.setMatchingid((Integer)map.get("matchingid"));
 		user.setState((Integer)map.get("state"));
+
+        int a = (Integer)map.get("state");
+
+		if(a < 3) {
 		userList.add(user);
+		}		
 	}
 	return userList;
 	}
