@@ -29,8 +29,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<button class="btn btn-link pull-right navbar-brand" type="submit">
 		ログアウト
 		</button>
+		</form>
+		
+		<form method="get" th:action="@{/hometomatching}">
+		<button class="btn-link" type="submit">マッチング画面にいく
+		</button>
+		</form>
 
 
-	</form>
+
 	</body>
 </html>

@@ -24,4 +24,17 @@ public class HomeController {
 		model.addAttribute("userList", userList);
 		return "login/home";
 	}
+	
+	@GetMapping("/hometomatching")
+	public String Hometomatching() {
+	//マッチング画面にリダイレクト
+	return "redirect:/matching";
+	}
+	
+	@GetMapping("/matchingtohome")
+	public String Matchingtohome() {
+	//ホーム画面にリダイレクト
+	return "redirect:/home";
+	}
+
 }
