@@ -11,17 +11,17 @@ import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.service.UserService;
 
 @Controller
-public class HomeController {
+public class MatchingController {
 
 	@Autowired
 	UserService userService;
 
-	//ホーム画面のGETメソッド
-	@GetMapping("/home")
+	//マッチング画面のGETメソッド
+	@GetMapping("/matching")
 	public String getHome(Model model) {
 		model.addAttribute("contents", "login/home :: userList_contents");
-		List<User> userList = userService.selectBeforematching();
+		List<User> userList = userService.selectAftermatching();
 		model.addAttribute("userList", userList);
-		return "login/home";
+		return "login/matching";
 	}
 }

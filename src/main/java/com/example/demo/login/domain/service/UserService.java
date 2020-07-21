@@ -14,9 +14,12 @@ public class UserService {
 @Autowired
 UserDao dao;
 
-public List<User> selectMany() {
-return dao.selectMany();
-
-
+public List<User> selectBeforematching() {
+return dao.selectBeforematching();
 	}
+
+public List<User> selectAftermatching() {
+return dao.selectAftermatching();
+	}
+
 }

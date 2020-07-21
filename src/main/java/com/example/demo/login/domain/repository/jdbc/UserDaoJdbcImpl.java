@@ -19,7 +19,7 @@ public class UserDaoJdbcImpl implements UserDao{
 JdbcTemplate jdbc;
 
 @Override
-public List<User> selectMany() throws DataAccessException {
+public List<User> selectBeforematching() throws DataAccessException {
 	List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM matchings");
 	List<User> userList = new ArrayList<>();
 	
@@ -32,6 +32,26 @@ public List<User> selectMany() throws DataAccessException {
         int a = (Integer)map.get("state");
 
 		if(a < 3) {
+		userList.add(user);
+		}		
+	}
+	return userList;
+	}
+
+@Override
+public List<User> selectAftermatching() throws DataAccessException {
+	List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM matchings");
+	List<User> userList = new ArrayList<>();
+	
+	for(Map<String, Object> map:getList) {
+		
+		User user = new User();
+		user.setMatchingid((Integer)map.get("matchingid"));
+		user.setState((Integer)map.get("state"));
+
+        int a = (Integer)map.get("state");
+
+		if(a == 3) {
 		userList.add(user);
 		}		
 	}
