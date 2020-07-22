@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+		<meta charset="UTF-8">
+		<link th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet">
+		<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+		<title>メッセージ画面</title>
+	</head>
+		<body class="text-center">
+			<div th:fragment="userList_contents">
+				<h1>メッセージ画面</h1><br>
+			</div>
+			
+	<font size="2">記入欄</font><br>
+	<input type="text" name="message" size="100" style="width:200px;height:50px;"><br>
+     <input type="submit" value="投稿する"><br><br>
+	
+			<form method="get" th:action="@{/messagetomatching}">
+			<button class="btn-link" type="submit">マッチング一覧画面にいく
+			</button>
+			</form>
+	
+			<form method="post" th:action="@{/logout}">
+			<button class="btn btn-link pull-right navbar-brand" type="submit">
+			ログアウト
+			</button>
+		</form>
+	</body>
+</html>

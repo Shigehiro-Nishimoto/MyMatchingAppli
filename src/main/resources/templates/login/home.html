@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 	<head>
 		<meta charset="UTF-8">
@@ -9,10 +10,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<title>ホーム</title>
 		</head>
 		<body class="text-center">
+		<h1>ホーム</h1><font size="1"><br></font>
+<font size="3" color="blue"><span th:text="${thename}"></span>さんこんにちは。</font><br>
+<font size="3" color="red"><span sec:authentication="principal.username"></span>でログインしています。</font><br>
+<font size="3" color="blue">気になる方に「いいね」してみましょう。</font><br>
+
 		<div th:fragment="userList_contents">
-		<h1>ホーム</h1><br>
-		<h1>気になる方に「いいね」してみましょう。</h1>
-		
 	<table class="table table-bordered table-hover table-striped">
 	<tr>
 		<th class="info col-sm-2">ID</th>
@@ -24,19 +27,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</tr>
 	</table>
 	</div>
-		
+
 		<form method="post" th:action="@{/logout}">
 		<button class="btn btn-link pull-right navbar-brand" type="submit">
 		ログアウト
 		</button>
 		</form>
-		
+
 		<form method="get" th:action="@{/hometomatching}">
 		<button class="btn-link" type="submit">マッチング画面にいく
 		</button>
 		</form>
-
-
 
 	</body>
 </html>

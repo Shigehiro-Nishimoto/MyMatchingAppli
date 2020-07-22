@@ -10,11 +10,20 @@ password VARCHAR(100),
 role VARCHAR(20)
 );
 
-/*マッチング表*/
+/*マッチングトランザクション*/
 
 CREATE TABLE IF NOT EXISTS matchings(
 matchingid INT PRIMARY KEY,
 maleid INT,
 femaleid INT,
 state  INT
+);
+
+/*メッセージトランザクション*/
+
+CREATE TABLE IF NOT EXISTS matchings(
+matchingid INT,
+maleid INT,
+femaleid INT,
+messagecontent VARCHAR(100)
 );

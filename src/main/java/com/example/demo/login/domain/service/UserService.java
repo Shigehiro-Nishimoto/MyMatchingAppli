@@ -22,4 +22,7 @@ public List<User> selectAftermatching() {
 return dao.selectAftermatching();
 	}
 
+public User selectOne(String mailaddress) {
+	return dao.selectOne(mailaddress);
+	}
 }

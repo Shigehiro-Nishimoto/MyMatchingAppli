@@ -14,4 +14,6 @@ public List<User> selectBeforematching() throws DataAccessException;
 
 public List<User> selectAftermatching() throws DataAccessException;
 
+public User selectOne(String mailaddress) throws DataAccessException;
+
 }

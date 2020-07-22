@@ -57,4 +57,14 @@ public List<User> selectAftermatching() throws DataAccessException {
 	}
 	return userList;
 	}
+
+@Override
+public User selectOne(String mailaddress)throws DataAccessException {
+	
+	Map<String, Object> map = jdbc.queryForMap("SELECT name FROM members WHERE mailaddress = ?", mailaddress);
+	User user = new User();
+	user.setName((String)map.get("name"));
+	return user;
+	
+	}
 }

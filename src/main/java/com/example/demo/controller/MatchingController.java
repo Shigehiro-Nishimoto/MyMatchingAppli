@@ -18,7 +18,7 @@ public class MatchingController {
 
 	//マッチング画面のGETメソッド
 	@GetMapping("/matching")
-	public String getHome(Model model) {
+	public String getMatching(Model model) {
 		model.addAttribute("contents", "login/home :: userList_contents");
 		List<User> userList = userService.selectAftermatching();
 		model.addAttribute("userList", userList);
