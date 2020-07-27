@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,9 @@ public class MatchingController {
 	@GetMapping("/matching")
 	public String getMatching(Model model) {
 		model.addAttribute("contents", "login/home :: userList_contents");
-		List<User> userList = userService.selectAftermatching();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String mailaddressnow = auth.getName();
+		List<User> userList = userService.selectAftermatching(mailaddressnow);
 		model.addAttribute("userList", userList);
 		return "login/matching";
 	}

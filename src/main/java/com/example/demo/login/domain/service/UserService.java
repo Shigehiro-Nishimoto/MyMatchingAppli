@@ -10,19 +10,23 @@ import com.example.demo.login.domain.repository.UserDao;
 
 @Service
 public class UserService {
-	
+
 @Autowired
 UserDao dao;
 
-public List<User> selectBeforematching() {
-return dao.selectBeforematching();
+public List<User> selectBeforematching(String mailaddress) {
+return dao.selectBeforematching(mailaddress);
 	}
 
-public List<User> selectAftermatching() {
-return dao.selectAftermatching();
+public List<User> selectAftermatching(String mailaddress) {
+return dao.selectAftermatching(mailaddress);
 	}
 
 public User selectOne(String mailaddress) {
 	return dao.selectOne(mailaddress);
+	}
+
+public int calcAgeAruAru(String mailaddress) {
+	return dao.calcAgeAruAru(mailaddress);
 	}
 }

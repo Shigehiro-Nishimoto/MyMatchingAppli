@@ -10,10 +10,11 @@ public class User {
 	private int id;
 	public String name;
 	private Boolean sex;
-	private Date birthday;
+	public Date birthday;
 	private String mailaddress;
 	private String password;
 	private int matchingid;
 	private int state;
-	
+	private int age;
+
 }

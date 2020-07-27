@@ -10,10 +10,11 @@ import com.example.demo.login.domain.model.User;
 @Repository
 public interface UserDao {
 
-public List<User> selectBeforematching() throws DataAccessException;
+public List<User> selectBeforematching(String mailaddress) throws DataAccessException;
 
-public List<User> selectAftermatching() throws DataAccessException;
+public List<User> selectAftermatching(String mailaddress) throws DataAccessException;
 
 public User selectOne(String mailaddress) throws DataAccessException;
 
+public int calcAgeAruAru(String mailaddress)  throws DataAccessException;
 }

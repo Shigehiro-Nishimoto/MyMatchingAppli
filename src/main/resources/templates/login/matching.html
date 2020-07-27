@@ -16,10 +16,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<table class="table table-bordered table-hover table-striped">
 	<tr>
 		<th class="info col-sm-2">ID</th>
+		<th class="info col-sm-2">名前</th>
+		<th class="info col-sm-2">年齢</th>
 		<th class="info col-sm-2">状態</th>
 		</tr>
 		<tr th:each="user : ${userList}">
 		<td th:text="${user.matchingid}"></td>
+		<td th:text="${user.name} + 'さん'"></td>
+		<td th:text="${user.age} + '歳'"></td>
 		<td th:text="${user.state}"></td>
 		</tr>
 	</table>

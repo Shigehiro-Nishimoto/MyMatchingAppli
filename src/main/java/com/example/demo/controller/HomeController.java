@@ -23,17 +23,31 @@ public class HomeController {
 	//ホーム画面のGETメソッド
 	@GetMapping("/home")
 	public String getHome(Model model) {
-		model.addAttribute("contents", "login/home :: userList_contents");
-		List<User> userList = userService.selectBeforematching();
-		model.addAttribute("userList", userList);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        //Principalからログインユーザの情報を取得
-        String mailaddress = auth.getName();
-        model.addAttribute("mailaddress", mailaddress);
-        User a = userService.selectOne(mailaddress);
+        String mailaddressnow = auth.getName();
+
+        //ユーザーリストのモデルへの登録。
+		model.addAttribute("contents", "login/home :: userList_contents");
+		List<User> userList = userService.selectBeforematching(mailaddressnow);
+		model.addAttribute("userList", userList);
+
+        //モデルへのログイン者の名前の登録。
+        //ここで初めて、他のクラスからのメソッドの呼び出しを理解した。
+        //というのも、まずサービスクラスをAutowiredし、selectOne()というメソッドを呼び出しているからである。
+        //実は、サービスクラスはDaoをAutowiredしており、Daoは、Implのinterface。
+        //つまり、実装の記述はImplでされており、実質的にはたらいまわしにされているようなイメージである。
+        //では実装部分で何をしているかというと、jdbc.queryで直接、ＤＢからデータをとってきているのである。
+        //なので、実質的なコードの部分を見たければ、ImplのselectOne()を見るべきである。
+        //また、この日初めてListとmapと配列の違いを理解した。
+        User a = userService.selectOne(mailaddressnow);
         String thename = a.name;
         model.addAttribute("thename", thename);
+        
+        int theage = userService.calcAgeAruAru(mailaddressnow);
+        model.addAttribute("theage", theage);
+
         return "login/home";
+
 	}
 
 	@GetMapping("/hometomatching")
