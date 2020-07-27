@@ -11,16 +11,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div th:fragment="userList_contents">
 				<h1>メッセージ画面</h1><br>
 			</div>
-			
+
 	<font size="2">記入欄</font><br>
-	<input type="text" name="message" size="100" style="width:200px;height:50px;"><br>
+	<form action="/message" method="post" th:object="${message}">
+	<input type="text" name="written"  size="100" style="width:200px;height:50px;"><br>
      <input type="submit" value="投稿する"><br><br>
-	
+	</form>
+
 			<form method="get" th:action="@{/messagetomatching}">
 			<button class="btn-link" type="submit">マッチング一覧画面にいく
 			</button>
 			</form>
-	
+
 			<form method="post" th:action="@{/logout}">
 			<button class="btn btn-link pull-right navbar-brand" type="submit">
 			ログアウト
