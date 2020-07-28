@@ -11,6 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.login.domain.model.Message;
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.repository.UserDao;
 
@@ -204,4 +205,24 @@ public int calcAgeAruAru(String mailaddress) throws DataAccessException {
 
 	return age;
 	}
+
+
+@Override
+public List<Message> takeMessage(int matchingid) throws DataAccessException {
+	List<Map<String, Object>> getMessage = jdbc.queryForList("SELECT * FROM message WHERE matchingid = ?");
+	List<Message> Message = new ArrayList<>();
+
+	for(Map<String, Object> map:getMessage) {
+
+		Message onemessage = new Message();
+		onemessage.setMatchingid((Integer)map.get("matchingid"));
+		onemessage.setWhospost((Integer)map.get("whospost"));
+		onemessage.setNumber((Integer)map.get("number"));
+		onemessage.setMessage((String)map.get("message"));
+
+		Message.add(onemessage);
+	}
+
+	return Message;
+		}
 }

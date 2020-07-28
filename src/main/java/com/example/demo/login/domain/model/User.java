@@ -13,8 +13,7 @@ public class User {
 	public Date birthday;
 	private String mailaddress;
 	private String password;
+	private int age;
 	private int matchingid;
 	private int state;
-	private int age;
-
 }

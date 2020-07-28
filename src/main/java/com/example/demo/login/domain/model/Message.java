@@ -1,12 +1,13 @@
 package com.example.demo.login.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class Message {
 
-	private String written;
+public int matchingid;
+public int whospost;
+public int number;
+public String message;
 
 }

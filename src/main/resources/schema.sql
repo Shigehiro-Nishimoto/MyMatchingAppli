@@ -21,9 +21,9 @@ state  INT
 
 /*メッセージトランザクション*/
 
-CREATE TABLE IF NOT EXISTS matchings(
+CREATE TABLE IF NOT EXISTS messages(
 matchingid INT,
-maleid INT,
-femaleid INT,
+whospost INT,
+number INT,
 messagecontent VARCHAR(100)
 );

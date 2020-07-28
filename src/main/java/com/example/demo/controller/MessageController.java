@@ -21,8 +21,8 @@ public class MessageController {
 	public String getMessage(Model model) {
 		return "login/message";
 	}
-	
-	@PostMapping(value = "/message")
+
+	@PostMapping
 	public String MessageWirtten(@ModelAttribute("message") Message form, Model model) {
 	return "redirect:/message";
 	}

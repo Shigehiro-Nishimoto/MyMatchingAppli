@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.login.domain.model.Message;
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.repository.UserDao;
 
@@ -28,5 +29,9 @@ public User selectOne(String mailaddress) {
 
 public int calcAgeAruAru(String mailaddress) {
 	return dao.calcAgeAruAru(mailaddress);
+	}
+
+public List<Message> takeMessage(int matchingid) {
+	return dao.takeMessage(matchingid);
 	}
 }

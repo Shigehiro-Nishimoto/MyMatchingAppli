@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.login.domain.model.Message;
 import com.example.demo.login.domain.model.User;
 
 @Repository
@@ -17,4 +18,6 @@ public List<User> selectAftermatching(String mailaddress) throws DataAccessExcep
 public User selectOne(String mailaddress) throws DataAccessException;
 
 public int calcAgeAruAru(String mailaddress)  throws DataAccessException;
+
+public List<Message> takeMessage(int matchingid) throws DataAccessException;
 }
