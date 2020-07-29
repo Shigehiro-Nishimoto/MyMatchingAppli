@@ -26,14 +26,14 @@ VALUES(3, 3, 2, 2);
 INSERT INTO matchings (matchingid, maleid, femaleid, state)
 VALUES(4, 3, 4, 3);
 
-INSERT INTO messages (matchingid, whospost, number, messagecontent)
+INSERT INTO message (matchingid, whospost, number, messagecontent)
 VALUES(4, 3, 1, 'はじめまして。');
 
-INSERT INTO messages (matchingid, whospost, number, messagecontent)
+INSERT INTO message (matchingid, whospost, number, messagecontent)
 VALUES(4, 4, 2, 'こちらこそ。趣味はなんですか？');
 
-INSERT INTO messages (matchingid, whospost, number, messagecontent)
+INSERT INTO message (matchingid, whospost, number, messagecontent)
 VALUES(4, 3, 3, 'テニスです。');
 
-INSERT INTO messages (matchingid, whospost, number, messagecontent)
+INSERT INTO message (matchingid, whospost, number, messagecontent)
 VALUES(4, 4, 4, '一緒です（笑）');

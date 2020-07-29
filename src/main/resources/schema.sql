@@ -21,7 +21,7 @@ state  INT
 
 /*メッセージトランザクション*/
 
-CREATE TABLE IF NOT EXISTS messages(
+CREATE TABLE IF NOT EXISTS message(
 matchingid INT,
 whospost INT,
 number INT,

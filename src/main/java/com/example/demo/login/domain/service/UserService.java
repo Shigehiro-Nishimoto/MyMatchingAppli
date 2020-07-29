@@ -15,6 +15,15 @@ public class UserService {
 @Autowired
 UserDao dao;
 
+public boolean insert(User user) {
+	int rowNumber = dao.insertOne(user);
+	boolean result = false;
+	if(rowNumber > 0) {
+	result = true;
+	}
+return result;
+}
+
 public List<User> selectBeforematching(String mailaddress) {
 return dao.selectBeforematching(mailaddress);
 	}

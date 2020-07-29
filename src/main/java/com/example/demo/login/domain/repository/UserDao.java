@@ -11,6 +11,8 @@ import com.example.demo.login.domain.model.User;
 @Repository
 public interface UserDao {
 
+public int insertOne(User user)throws DataAccessException;
+
 public List<User> selectBeforematching(String mailaddress) throws DataAccessException;
 
 public List<User> selectAftermatching(String mailaddress) throws DataAccessException;

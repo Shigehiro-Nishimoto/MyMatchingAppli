@@ -12,10 +12,22 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 	</head>
 		<body class="text-center">
-			<div th:fragment="userList_contents">
-				<h1>メッセージ画面</h1><br>
-			</div>
-
+		<h1>メッセージ画面</h1><br>
+			
+	<div th:fragment="messagetoShow_contents">
+	<table class="table table-bordered table-hover table-striped">
+		<tr>
+		<th class="info col-sm-2">番号</th>
+		<th class="info col-sm-2">内容</th>
+		</tr>
+		<tr th:each="message : ${messagetoShow}">
+		<td th:text="${message.number}"></td>
+		<td th:text="${message.messagecontent}"></td>
+		</tr>
+	</table>
+	</div>
+			
+			
 	<font size="2">記入欄</font><br>
 	<form action="/message" method="post" th:object="${message}">
 	<input type="text" name="written"  size="100" style="width:200px;height:50px;"><br>

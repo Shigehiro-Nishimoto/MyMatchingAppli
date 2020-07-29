@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.login.domain.model.Message;
@@ -20,6 +21,23 @@ public class UserDaoJdbcImpl implements UserDao{
 
 @Autowired
 JdbcTemplate jdbc;
+
+@Autowired
+PasswordEncoder passwordEncoder;
+
+@Override
+public int insertOne(User user)throws DataAccessException {
+	
+	Map<String, Object> a = jdbc.queryForMap("SELECT MAX(id) + FROM members");
+	int newid = (Integer)a.get("id") + 1;
+
+	String password = passwordEncoder.encode(user.getPassword());	
+
+	int rowNumber = jdbc.update("INSERT INTO members(id, name, sex, birthday, mailaddress, password, role) VALUES(?, ?, ?, ?, ?, ?, ?)",
+	newid, user.getName(), user.getSex(), user.getBirthday(), user.getMailaddress(), password, "ROLE_GENERAL");
+	
+	return rowNumber;
+}
 
 @Override
 public List<User> selectBeforematching(String mailaddress) throws DataAccessException {
@@ -209,7 +227,7 @@ public int calcAgeAruAru(String mailaddress) throws DataAccessException {
 
 @Override
 public List<Message> takeMessage(int matchingid) throws DataAccessException {
-	List<Map<String, Object>> getMessage = jdbc.queryForList("SELECT * FROM message WHERE matchingid = ?");
+	List<Map<String, Object>> getMessage = jdbc.queryForList("SELECT * FROM message WHERE matchingid = ?", matchingid);
 	List<Message> Message = new ArrayList<>();
 
 	for(Map<String, Object> map:getMessage) {
@@ -218,7 +236,7 @@ public List<Message> takeMessage(int matchingid) throws DataAccessException {
 		onemessage.setMatchingid((Integer)map.get("matchingid"));
 		onemessage.setWhospost((Integer)map.get("whospost"));
 		onemessage.setNumber((Integer)map.get("number"));
-		onemessage.setMessage((String)map.get("message"));
+		onemessage.setMessagecontent((String)map.get("messagecontent"));
 
 		Message.add(onemessage);
 	}

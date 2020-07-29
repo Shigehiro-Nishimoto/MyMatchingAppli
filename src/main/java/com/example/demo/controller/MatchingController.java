@@ -16,8 +16,6 @@ import com.example.demo.login.domain.model.Message;
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.service.UserService;
 
-
-
 @Controller
 public class MatchingController {
 

@@ -8,6 +8,6 @@ public class Message {
 public int matchingid;
 public int whospost;
 public int number;
-public String message;
+public String messagecontent;
 
 }

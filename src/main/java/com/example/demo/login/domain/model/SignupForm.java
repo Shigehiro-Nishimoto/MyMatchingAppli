@@ -1,5 +1,3 @@
-
-
 package com.example.demo.login.domain.model;
 
 import java.util.Date;
@@ -26,7 +24,7 @@ public class SignupForm {
 
 	@Email(message="{email_check}")
 	@NotBlank(message="{require_check}")
-	private String EMail;
+	private String Mailaddress;
 
 	@NotBlank(message="{require_check}")
 	@Length(min=4, max=100, message="{length_check}")

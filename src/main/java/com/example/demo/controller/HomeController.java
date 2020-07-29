@@ -32,13 +32,6 @@ public class HomeController {
 		model.addAttribute("userList", userList);
 
         //モデルへのログイン者の名前の登録。
-        //ここで初めて、他のクラスからのメソッドの呼び出しを理解した。
-        //というのも、まずサービスクラスをAutowiredし、selectOne()というメソッドを呼び出しているからである。
-        //実は、サービスクラスはDaoをAutowiredしており、Daoは、Implのinterface。
-        //つまり、実装の記述はImplでされており、実質的にはたらいまわしにされているようなイメージである。
-        //では実装部分で何をしているかというと、jdbc.queryで直接、ＤＢからデータをとってきているのである。
-        //なので、実質的なコードの部分を見たければ、ImplのselectOne()を見るべきである。
-        //また、この日初めてListとmapと配列の違いを理解した。
         User a = userService.selectOne(mailaddressnow);
         String thename = a.name;
         model.addAttribute("thename", thename);
