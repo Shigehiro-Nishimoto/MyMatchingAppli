@@ -1,6 +1,7 @@
 package com.example.demo.login.domain.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -13,13 +14,15 @@ public interface UserDao {
 
 public int insertOne(User user)throws DataAccessException;
 
-public List<User> selectBeforematching(String mailaddress) throws DataAccessException;
+public List<Map<String, Object>> selectBeforematching(String mailaddress) throws DataAccessException;
 
-public List<User> selectAftermatching(String mailaddress) throws DataAccessException;
+public List<Map<String, Object>> selectAftermatching(String mailaddress) throws DataAccessException;
 
 public User selectOne(String mailaddress) throws DataAccessException;
 
 public int calcAgeAruAru(String mailaddress)  throws DataAccessException;
 
 public List<Message> takeMessage(int matchingid) throws DataAccessException;
+
+public User TheSelect(Map<String, Object> map, String mailaddress);
 }
