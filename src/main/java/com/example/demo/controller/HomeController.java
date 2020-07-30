@@ -32,11 +32,11 @@ public class HomeController {
 		model.addAttribute("userList", userList);
 
         //モデルへのログイン者の名前の登録。
-        User a = userService.selectOne(mailaddressnow);
+        User a = userService.Name(mailaddressnow);
         String thename = a.name;
         model.addAttribute("thename", thename);
         
-        int theage = userService.calcAgeAruAru(mailaddressnow);
+        int theage = userService.calcAge(mailaddressnow);
         model.addAttribute("theage", theage);
 
         return "login/home";

@@ -12,15 +12,13 @@ import com.example.demo.login.domain.model.User;
 @Repository
 public interface UserDao {
 
-public int insertOne(User user)throws DataAccessException;
+public int insertOne(User user) throws DataAccessException;
 
-public List<Map<String, Object>> selectBeforematching(String mailaddress) throws DataAccessException;
+public List<Map<String, Object>> getallfromMatching() throws DataAccessException;
 
-public List<Map<String, Object>> selectAftermatching(String mailaddress) throws DataAccessException;
+public User Name(String mailaddress) throws DataAccessException;
 
-public User selectOne(String mailaddress) throws DataAccessException;
-
-public int calcAgeAruAru(String mailaddress)  throws DataAccessException;
+public int calcAge(String mailaddress)  throws DataAccessException;
 
 public List<Message> takeMessage(int matchingid) throws DataAccessException;
 

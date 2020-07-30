@@ -8,7 +8,7 @@ VALUES(2, 'Yuka', false, '1997-07-01', 'yuka@yahoo.co.jp', '$2a$10$xRTXvpMWly0oG
 
 INSERT INTO members (id, name, sex, birthday, mailaddress, password, role)
 
-VALUES(3, 'Kensuke', true, '1997-07-015', 'kensuke@yahoo.co.jp', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa', 'ROLE_GENERAL');
+VALUES(3, 'Kensuke', true, '1997-07-15', 'kensuke@yahoo.co.jp', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa', 'ROLE_GENERAL');
 
 INSERT INTO members (id, name, sex, birthday, mailaddress, password, role)
 

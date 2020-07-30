@@ -26,16 +26,21 @@ JdbcTemplate jdbc;
 PasswordEncoder passwordEncoder;
 
 
-	//●●状態が２以下のお相手を表示するメソッド●●
-	@Override
-	public List<Map<String, Object>> selectBeforematching(String mailaddress) throws DataAccessException {
-		List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM matchings");
-		return getList;
-		}
+@Override
+public int insertOne(User user) throws DataAccessException {
 
-	//●●状態が３のお相手を表示するメソッド●●
+    String password = passwordEncoder.encode(user.getPassword());
+    
+	Map<String, Object> maxid = jdbc.queryForMap("SELECT Max(id) FROM members");
+	int newid = 1 + (Integer)maxid.get("id");
+    int rowNumber = jdbc.update("INSERT INTO members(id, name, sex, birthday, mailaddress, password, role) VALUES(?, ?, ?, ?, ?, ?, ?)", newid, user.getName(), user.getSex(), user.getBirthday(), user.getMailaddress(), password, user.getRole());
+
+    return rowNumber;
+}
+
+	//●●マッチング表のデータを全て取得するメソッド●●
 	@Override
-	public List<Map<String, Object>> selectAftermatching(String mailaddress) throws DataAccessException {
+	public List<Map<String, Object>> getallfromMatching() throws DataAccessException {
 		List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM matchings");
 		return getList;
 		}
@@ -59,7 +64,7 @@ PasswordEncoder passwordEncoder;
 		user.setState((Integer)map.get("state"));
 		user.setName((String)who.get("name"));
 		user.setBirthday((Date)who.get("birthday"));
-		int age = calcAgeAruAru((String)who.get("mailaddress"));
+		int age = calcAge((String)who.get("mailaddress"));
 		user.setAge(age);
     	int e = (Integer)map.get("maleid");
     	int f = (Integer)map.get("femaleid");
@@ -77,21 +82,9 @@ PasswordEncoder passwordEncoder;
 		return user;
 	}
 
-	//●●新規会員登録するメソッド●●
-	@Override
-	public int insertOne(User user)throws DataAccessException {
-
-		Map<String, Object> a = jdbc.queryForMap("SELECT MAX(id) + FROM members");
-		int newid = (Integer)a.get("id") + 1;
-		String password = passwordEncoder.encode(user.getPassword());
-		int rowNumber = jdbc.update("INSERT INTO members(id, name, sex, birthday, mailaddress, password, role) VALUES(?, ?, ?, ?, ?, ?, ?)",
-		newid, user.getName(), user.getSex(), user.getBirthday(), user.getMailaddress(), password, "ROLE_GENERAL");
-		return rowNumber;
-	}
-
 	//●●ログイン者の名前をUser型で返すメソッド●●
 	@Override
-	public User selectOne(String mailaddress)throws DataAccessException {
+	public User Name(String mailaddress)throws DataAccessException {
 		Map<String, Object> map = jdbc.queryForMap("SELECT name FROM members WHERE mailaddress = ?", mailaddress);
 		User user = new User();
 		user.setName((String)map.get("name"));
@@ -100,7 +93,7 @@ PasswordEncoder passwordEncoder;
 
 	//●●メールアドレスを引数に、年齢を返すメソッド●●
 	@Override
-	public int calcAgeAruAru(String mailaddress) throws DataAccessException {
+	public int calcAge(String mailaddress) throws DataAccessException {
 		int age = 0;
 		Map<String, Object> map = jdbc.queryForMap("SELECT birthday FROM members WHERE mailaddress = ?", mailaddress);
 		Date birthdaynow = (Date)map.get("birthday");

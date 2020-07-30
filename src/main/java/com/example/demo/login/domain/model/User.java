@@ -16,5 +16,6 @@ public class User {
 	private int age;
 	private int matchingid;
 	private int state;
-	public boolean gaitousuruka; 
+	public boolean gaitousuruka;
+	public String role;
 }

@@ -35,7 +35,7 @@ public class MatchingController {
 
 	@PostMapping("/tomessage")
 	public String Tomessage(HttpServletRequest request, Model model) {
-	model.addAttribute("contents", "login/home :: messagetoShow_contents");
+	model.addAttribute("contents", "login/message :: messagetoShow_contents");
 	int matchingid = Integer.parseInt(request.getParameter("matchingid"));
 	List<Message> messagetoShow = userService.takeMessage(matchingid);
 	model.addAttribute("messagetoShow", messagetoShow);
