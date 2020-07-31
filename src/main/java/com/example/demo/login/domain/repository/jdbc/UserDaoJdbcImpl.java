@@ -25,8 +25,6 @@ JdbcTemplate jdbc;
 @Autowired
 PasswordEncoder passwordEncoder;
 
-	//●●●●●●●●ここから制作中●●●●●●●●
-	//●●●●●●●●ここから制作中●●●●●●●●
 	@Override
 	public int insertOne(User user) throws DataAccessException {
 	    String password = passwordEncoder.encode(user.getPassword());
@@ -35,16 +33,33 @@ PasswordEncoder passwordEncoder;
 		System.out.println(biggestid2);
 		int newid = 1 + biggestid2;
 	    int rowNumber = jdbc.update("INSERT INTO members(id, name, sex, birthday, mailaddress, password, role) VALUES(?, ?, ?, ?, ?, ?, ?)", newid, user.getName(), user.getSex(), user.getBirthday(), user.getMailaddress(), password, user.getRole());
+
 	    //マッチング表も必要な数だけレコードを増やす
 	   	Map<String, Object> biggestmatchingid = jdbc.queryForMap("SELECT MAX(matchingid) FROM matchings");
-		int biggestmatchingid2 = (Integer)biggestmatchingid.get("MAX(matchingid)");
-		int newmatchingid = biggestmatchingid2 + 1;
+	   	List<Map<String, Object>> maleidall = jdbc.queryForList("SELECT id FROM members WHERE sex = true");
+	   	List<Map<String, Object>> femaleidall = jdbc.queryForList("SELECT id FROM members WHERE sex = false");
+		int newmatchingid = 1 + (Integer)biggestmatchingid.get("MAX(matchingid)");
+		boolean sexofthisperson = user.getSex();
+
+		if(sexofthisperson == true){
+			int w = newmatchingid;
+
+			for(Map<String, Object> y: femaleidall) {
+				int yy = (Integer)y.get("id");
+			    int rowNumber2 = jdbc.update("INSERT INTO matchings(matchingid, maleid, femaleid, state) VALUES(?, ?, ?, ?)", w, newid, yy, 0);
+			    w = w + 1;
+				}
+		}else {
+			int w = newmatchingid;
+			for(Map<String, Object> y: maleidall) {
+				int yy = (Integer)y.get("id");
+			    int rowNumber2 = jdbc.update("INSERT INTO matchings(matchingid, maleid, femaleid, state) VALUES(?, ?, ?, ?)", w, yy, newid, 0);
+			    w = w + 1;
+				}
+		}
+
 	    return rowNumber;
 	}
-	//●●●●●●●●ここまで制作中●●●●●●●●
-	//●●●●●●●●ここまで制作中●●●●●●●●
-
-
 
 	//●●マッチング表のデータを全て取得するメソッド●●
 	@Override
@@ -104,6 +119,29 @@ PasswordEncoder passwordEncoder;
 			onemessage.setMessagecontent((String)map.get("messagecontent"));
 			Message.add(onemessage);
 			}
+	    int matchingaitekakikomi = jdbc.update("INSERT INTO matchingaite(matchingid) VALUES(?)", matchingid);
 		return Message;
 		}
+	
+	public int MessageWritten(Map<String, Object> written) {
+	    int rowNumber2 = jdbc.update("INSERT INTO matchings(matchingid, whospost, number, messagecontent) VALUES(?, ?, ?, ?)", (Integer)written.get("matchingid"), (Integer)written.get("whospost"), (Integer)written.get("number"), (String)written.get("messagecontent"));
+		return rowNumber2;
+	}
+	
+	public int CheckMatchingid() {
+		Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM messageaite");
+		int a = (Integer)map.get("matchingid");
+		return a;
+	}
+	
+	public int whosloggingin(String mailaddress) {
+	Map<String, Object> map = jdbc.queryForMap("SELECT id FROM members WHERE mailaddress = ?", mailaddress);
+	int a = (Integer)map.get("id");
+	return a;
+	}
+	
+	public  int seebiggestnumber(int matchingid) {
+	Map<String, Object> map = jdbc.queryForMap("SELECT Max(number) FROM message WHERE matchingid = ?", matchingid);
+	return  (Integer)map.get("Max(number)");
+	}
 }

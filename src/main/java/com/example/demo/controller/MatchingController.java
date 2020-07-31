@@ -39,7 +39,6 @@ public class MatchingController {
 	int matchingid = Integer.parseInt(request.getParameter("matchingid"));
 	List<Message> messagetoShow = userService.takeMessage(matchingid);
 	model.addAttribute("messagetoShow", messagetoShow);
-	//リダイレクト
-	return "redirect:/message";
+	return "login/message";
 	}
 }

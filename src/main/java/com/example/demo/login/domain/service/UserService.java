@@ -2,11 +2,14 @@ package com.example.demo.login.domain.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.login.domain.model.Message;
@@ -23,7 +26,6 @@ public class UserService {
         int rowNumber = dao.insertOne(user);
         boolean result = false;
         if (rowNumber > 0) {
-            // insert成功
             result = true;
         }
         return result;
@@ -105,5 +107,24 @@ public class UserService {
     	}
 		user.setGaitousuruka(g);
 		return user;
-		}
+	}
+
+	public int MessageWritten(String written, int matchingid) {
+	Map<String, Object> writtenall = new HashMap();
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String mailaddressnow = auth.getName();
+    int theid = dao.whosloggingin(mailaddressnow);
+    int a = 1 + dao.seebiggestnumber(matchingid);
+    
+	writtenall.put("matchingid", matchingid);
+	writtenall.put("whospost", theid);
+	writtenall.put("number", a);
+	writtenall.put("messagecontent", written);
+	int b = dao.MessageWritten(writtenall);
+	return b;
+	}
+	
+	public int CheckMatchingid() {
+	return dao.CheckMatchingid();
+	}
 }

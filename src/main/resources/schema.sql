@@ -27,3 +27,9 @@ whospost INT,
 number INT,
 messagecontent VARCHAR(100)
 );
+
+/*メッセージアイテ*/
+
+CREATE TABLE IF NOT EXISTS matchingaite(
+matchingid INT,
+);

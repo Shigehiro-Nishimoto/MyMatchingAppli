@@ -25,4 +25,12 @@ public List<Message> takeMessage(int matchingid) throws DataAccessException;
 public Map<String, Object> TheSelect1(Map<String, Object> map, String mailaddress);
 
 public Map<String, Object> TheSelect2(Map<String, Object> map, int b);
+
+public int MessageWritten(Map<String, Object> q);
+
+public int CheckMatchingid();
+
+public  int whosloggingin(String mailaddress);
+
+public  int seebiggestnumber(int matchingid);
 }
