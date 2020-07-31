@@ -25,18 +25,26 @@ JdbcTemplate jdbc;
 @Autowired
 PasswordEncoder passwordEncoder;
 
+	//●●●●●●●●ここから制作中●●●●●●●●
+	//●●●●●●●●ここから制作中●●●●●●●●
+	@Override
+	public int insertOne(User user) throws DataAccessException {
+	    String password = passwordEncoder.encode(user.getPassword());
+	   	Map<String, Object> biggestid = jdbc.queryForMap("SELECT MAX(id) FROM members");
+		int biggestid2 = (Integer)biggestid.get("MAX(id)");
+		System.out.println(biggestid2);
+		int newid = 1 + biggestid2;
+	    int rowNumber = jdbc.update("INSERT INTO members(id, name, sex, birthday, mailaddress, password, role) VALUES(?, ?, ?, ?, ?, ?, ?)", newid, user.getName(), user.getSex(), user.getBirthday(), user.getMailaddress(), password, user.getRole());
+	    //マッチング表も必要な数だけレコードを増やす
+	   	Map<String, Object> biggestmatchingid = jdbc.queryForMap("SELECT MAX(matchingid) FROM matchings");
+		int biggestmatchingid2 = (Integer)biggestmatchingid.get("MAX(matchingid)");
+		int newmatchingid = biggestmatchingid2 + 1;
+	    return rowNumber;
+	}
+	//●●●●●●●●ここまで制作中●●●●●●●●
+	//●●●●●●●●ここまで制作中●●●●●●●●
 
-@Override
-public int insertOne(User user) throws DataAccessException {
 
-    String password = passwordEncoder.encode(user.getPassword());
-    
-	Map<String, Object> maxid = jdbc.queryForMap("SELECT Max(id) FROM members");
-	int newid = 1 + (Integer)maxid.get("id");
-    int rowNumber = jdbc.update("INSERT INTO members(id, name, sex, birthday, mailaddress, password, role) VALUES(?, ?, ?, ?, ?, ?, ?)", newid, user.getName(), user.getSex(), user.getBirthday(), user.getMailaddress(), password, user.getRole());
-
-    return rowNumber;
-}
 
 	//●●マッチング表のデータを全て取得するメソッド●●
 	@Override
@@ -45,41 +53,16 @@ public int insertOne(User user) throws DataAccessException {
 		return getList;
 		}
 
-	//●●渡されたマッチング表のレコードから、User型のデータを完成させるメソッド●●
-	public User TheSelect(Map<String, Object> map, String mailaddress) throws DataAccessException {
-    	Map<String, Object> sex = jdbc.queryForMap("SELECT sex FROM members WHERE mailaddress = ?", mailaddress);
-    	Map<String, Object> id = jdbc.queryForMap("SELECT id FROM members WHERE mailaddress = ?", mailaddress);
-    	boolean c = (Boolean)sex.get("sex");
-    	int d = (Integer)id.get("id");
-    	int b = 0;
-    	if(c == true) {
-	    	b = (Integer)map.get("femaleid");
-    	}else{
-	    	b = (Integer)map.get("maleid");
-    	}
-		Map<String, Object> who = jdbc.queryForMap("SELECT * FROM members WHERE id = ?", b);
-
-		User user = new User();
-		user.setMatchingid((Integer)map.get("matchingid"));
-		user.setState((Integer)map.get("state"));
-		user.setName((String)who.get("name"));
-		user.setBirthday((Date)who.get("birthday"));
-		int age = calcAge((String)who.get("mailaddress"));
-		user.setAge(age);
-    	int e = (Integer)map.get("maleid");
-    	int f = (Integer)map.get("femaleid");
-    	boolean g = false;
-    	if(c == true) {
-	    	if(d == e) {
-	    	g = true;
-	    	}
-    	}else{
-	    	if(d == f) {
-	    	g = true;
-	    	}
-    	}
-		user.setGaitousuruka(g);
-		return user;
+	//●●渡されたマッチング表のレコードから、User型のデータを完成させるメソッド１●●
+	public Map<String, Object> TheSelect1(Map<String, Object> map, String mailaddress) throws DataAccessException {
+    	Map<String, Object> sexandid = jdbc.queryForMap("SELECT sex, id FROM members WHERE mailaddress = ?", mailaddress);
+    	return sexandid;
+	}
+	
+	//●●渡されたマッチング表のレコードから、User型のデータを完成させるメソッド２●●
+	public Map<String, Object> TheSelect2(Map<String, Object> map, int b) throws DataAccessException {
+	Map<String, Object> who = jdbc.queryForMap("SELECT * FROM members WHERE id = ?", b);
+	return who;
 	}
 
 	//●●ログイン者の名前をUser型で返すメソッド●●

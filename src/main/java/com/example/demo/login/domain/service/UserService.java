@@ -1,10 +1,12 @@
 package com.example.demo.login.domain.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.login.domain.model.Message;
@@ -31,7 +33,7 @@ public class UserService {
 		List<Map<String, Object>> getList = dao.getallfromMatching();
 		List<User> userList = new ArrayList<>();
 		for(Map<String, Object> map:getList) {
-			User user = dao.TheSelect(map, mailaddress);
+			User user = TheSelect(map, mailaddress);
 	        int a = (Integer)map.get("state");
 			if(a < 3) {
 				if(user.gaitousuruka == true) {
@@ -46,7 +48,7 @@ public class UserService {
 		List<Map<String, Object>> getList = dao.getallfromMatching();
 		List<User> userList = new ArrayList<>();
 		for(Map<String, Object> map:getList) {
-			User user = dao.TheSelect(map, mailaddress);
+			User user = TheSelect(map, mailaddress);
 	        int a = (Integer)map.get("state");
 			if(a == 3) {
 				if(user.gaitousuruka == true) {
@@ -67,5 +69,41 @@ public class UserService {
 
 	public List<Message> takeMessage(int matchingid) {
 		return dao.takeMessage(matchingid);
+		}
+	
+	public User TheSelect(Map<String, Object> map, String mailaddress) throws DataAccessException {
+		Map<String, Object> sexandid = dao.TheSelect1(map, mailaddress);
+	    boolean c = (Boolean)sexandid.get("sex");
+	    int d = (Integer)sexandid.get("id");
+	    	int b = 0;
+	    	if(c == true) {
+		    	b = (Integer)map.get("femaleid");
+	    	}else{
+		    	b = (Integer)map.get("maleid");
+	    	}
+
+		Map<String, Object> who = dao.TheSelect2(map, b);
+		
+		User user = new User();
+		user.setMatchingid((Integer)map.get("matchingid"));
+		user.setState((Integer)map.get("state"));
+		user.setName((String)who.get("name"));
+		user.setBirthday((Date)who.get("birthday"));
+		int age = calcAge((String)who.get("mailaddress"));
+		user.setAge(age);
+    	int e = (Integer)map.get("maleid");
+    	int f = (Integer)map.get("femaleid");
+    	boolean g = false;
+    	if(c == true) {
+	    	if(d == e) {
+	    	g = true;
+	    	}
+    	}else{
+	    	if(d == f) {
+	    	g = true;
+	    	}
+    	}
+		user.setGaitousuruka(g);
+		return user;
 		}
 }

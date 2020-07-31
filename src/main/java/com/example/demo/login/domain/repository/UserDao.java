@@ -22,5 +22,7 @@ public int calcAge(String mailaddress)  throws DataAccessException;
 
 public List<Message> takeMessage(int matchingid) throws DataAccessException;
 
-public User TheSelect(Map<String, Object> map, String mailaddress);
+public Map<String, Object> TheSelect1(Map<String, Object> map, String mailaddress);
+
+public Map<String, Object> TheSelect2(Map<String, Object> map, int b);
 }

@@ -35,7 +35,6 @@ public class SignupController {
 	//登録画面のメソッド
 	@GetMapping("/signup")
     public String getSignUp(@ModelAttribute SignupBox form, Model model) {
-
         radioSex = initRadioSex();
         model.addAttribute("radioSex", radioSex);
         return "login/signup";
@@ -44,20 +43,12 @@ public class SignupController {
 	 @PostMapping("/signup")
 	    public String postSignUp(@ModelAttribute SignupBox form,
 	            BindingResult bindingResult, Model model) {
-
-	        // 入力チェックに引っかかった場合、ユーザー登録画面に戻る
+	        //入力チェックに引っかかった場合、ユーザー登録画面に戻る
 	        if (bindingResult.hasErrors()) {
-
-	            // GETリクエスト用のメソッドを呼び出して、ユーザー登録画面に戻ります
+	        //GETリクエスト用のメソッドを呼び出して、ユーザー登録画面に戻る
 	            return getSignUp(form, model);
-
 	        }
-
-	        // formの中身をコンソールに出して確認します
-	        System.out.println(form);
-	        
-	        User user = new User();
-	        
+	        User user = new User();	        
 	        user.setName(form.getName());
 	        user.setSex(form.isSex());
 	        user.setBirthday(form.getBirthday());
@@ -68,8 +59,7 @@ public class SignupController {
 	        user.setMatchingid(1);
 	        user.setState(1);
 	        user.setGaitousuruka(true);
-
-	        // ユーザー登録処理
+	        user.setId(1);
 	        boolean result = userService.insert(user);
 
 	        // ユーザー登録結果の判定
@@ -78,7 +68,6 @@ public class SignupController {
 	        } else {
 	            System.out.println("insert失敗");
 	        }
-
 	        // login.htmlにリダイレクト
 	        return "redirect:/login";
 	    }

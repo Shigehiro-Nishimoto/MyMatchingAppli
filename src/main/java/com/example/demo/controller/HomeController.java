@@ -25,7 +25,6 @@ public class HomeController {
 	public String getHome(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String mailaddressnow = auth.getName();
-
         //ユーザーリストのモデルへの登録。
 		model.addAttribute("contents", "login/home :: userList_contents");
 		List<User> userList = userService.selectBeforematching(mailaddressnow);
