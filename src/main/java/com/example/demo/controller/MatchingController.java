@@ -10,9 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.login.domain.model.Message;
+import com.example.demo.login.domain.model.MessageBox;
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.service.UserService;
 
@@ -34,7 +36,7 @@ public class MatchingController {
 	}
 
 	@PostMapping("/tomessage")
-	public String Tomessage(HttpServletRequest request, Model model) {
+	public String Tomessage(HttpServletRequest request, @ModelAttribute MessageBox form, Model model) {
 	model.addAttribute("contents", "login/message :: messagetoShow_contents");
 	int matchingid = Integer.parseInt(request.getParameter("matchingid"));
 	List<Message> messagetoShow = userService.takeMessage(matchingid);

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.login.domain.model.Message;
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.repository.UserDao;
-
 @Repository
 public class UserDaoJdbcImpl implements UserDao{
 
@@ -119,17 +118,22 @@ PasswordEncoder passwordEncoder;
 			onemessage.setMessagecontent((String)map.get("messagecontent"));
 			Message.add(onemessage);
 			}
-	    int matchingaitekakikomi = jdbc.update("INSERT INTO matchingaite(matchingid) VALUES(?)", matchingid);
+		
+		int a1 = jdbc.queryForObject("SELECT COUNT(*) FROM matchingaite", Integer.class);
+		if(a1 == 0) {
+		int matchingaitekakikomi = jdbc.update("INSERT INTO matchingaite(matchingid) VALUES(?)", matchingid);
+		}else {
+		}
 		return Message;
 		}
 	
 	public int MessageWritten(Map<String, Object> written) {
-	    int rowNumber2 = jdbc.update("INSERT INTO matchings(matchingid, whospost, number, messagecontent) VALUES(?, ?, ?, ?)", (Integer)written.get("matchingid"), (Integer)written.get("whospost"), (Integer)written.get("number"), (String)written.get("messagecontent"));
+	    int rowNumber2 = jdbc.update("INSERT INTO message(matchingid, whospost, number, messagecontent) VALUES(?, ?, ?, ?)", (Integer)written.get("matchingid"), (Integer)written.get("whospost"), (Integer)written.get("number"), (String)written.get("messagecontent"));
 		return rowNumber2;
 	}
 	
 	public int CheckMatchingid() {
-		Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM messageaite");
+		Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
 		int a = (Integer)map.get("matchingid");
 		return a;
 	}
@@ -140,8 +144,20 @@ PasswordEncoder passwordEncoder;
 	return a;
 	}
 	
-	public  int seebiggestnumber(int matchingid) {
+	public int Donomessagegamennanoka() {
+	Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
+	return  (Integer)map.get("matchingid");
+	}
+	
+	public int seebiggestnumber(int matchingid) {
 	Map<String, Object> map = jdbc.queryForMap("SELECT Max(number) FROM message WHERE matchingid = ?", matchingid);
 	return  (Integer)map.get("Max(number)");
+	}
+	
+	public int LeaveMessageGamen() {
+		Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
+		int a = (Integer)map.get("matchingid");
+		int b = jdbc.update("DELETE FROM matchingaite WHERE matchingid = ?", a);
+		return b;
 	}
 }

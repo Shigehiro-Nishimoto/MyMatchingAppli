@@ -33,4 +33,9 @@ public int CheckMatchingid();
 public  int whosloggingin(String mailaddress);
 
 public  int seebiggestnumber(int matchingid);
+
+public  int Donomessagegamennanoka();
+
+public int LeaveMessageGamen();
+
 }

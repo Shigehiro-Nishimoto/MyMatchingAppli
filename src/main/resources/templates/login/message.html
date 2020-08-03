@@ -22,12 +22,35 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 		</tr>
 	</table>
 	</div>
-	
+
+		<!-- メッセージ入力欄 -->
+       <form method="post" th:action="@{/newmessage}" th:object="${messageBox}">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th class="active col-sm-3">入力欄</th>
+                    <td>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('nowwritten')} ? 'has-error'">
+                            <input type="text" class="form-control" th:field="*{nowwritten}" />
+                            <span class="text-danger" th:if="${#fields.hasErrors('nowwritten')}"
+                                th:errors="*{nowwritten}"> error </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <ul>
+                <li th:each="error : ${#fields.detailedErrors()}">
+                    <span th:text="${error.message}">Error message</span>
+                </li>
+            </ul>
+            <button class="btn btn-primary" type="submit">メッセージ入力</button>
+        </form>
+
+
 			<form method="get" th:action="@{/messagetomatching}">
 				<button class="btn-link" type="submit">マッチング画面にいく</button>
 			</form>
 
-			<form method="post" th:action="@{/logout}">
+			<form method="post" th:action="@{/logoutfrommessage}">
 				<button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト</button>
 			</form>
 	

@@ -109,22 +109,30 @@ public class UserService {
 		return user;
 	}
 
-	public int MessageWritten(String written, int matchingid) {
+	public int MessageWritten(String written) {
 	Map<String, Object> writtenall = new HashMap();
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
     String mailaddressnow = auth.getName();
+
+    int matchingidnow = dao.Donomessagegamennanoka();
+
     int theid = dao.whosloggingin(mailaddressnow);
-    int a = 1 + dao.seebiggestnumber(matchingid);
-    
-	writtenall.put("matchingid", matchingid);
+    int newnumber = 1 + dao.seebiggestnumber(matchingidnow);
+
+	writtenall.put("matchingid", matchingidnow);
 	writtenall.put("whospost", theid);
-	writtenall.put("number", a);
+	writtenall.put("number", newnumber);
 	writtenall.put("messagecontent", written);
 	int b = dao.MessageWritten(writtenall);
 	return b;
 	}
-	
+
 	public int CheckMatchingid() {
 	return dao.CheckMatchingid();
+	}
+	
+	public int LeaveMessageGamen() {
+	return dao.LeaveMessageGamen();
 	}
 }

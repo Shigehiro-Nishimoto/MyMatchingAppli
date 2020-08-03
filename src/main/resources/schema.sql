@@ -28,8 +28,8 @@ number INT,
 messagecontent VARCHAR(100)
 );
 
-/*メッセージアイテ*/
+/*ドノメッセージガメンナノカ*/
 
 CREATE TABLE IF NOT EXISTS matchingaite(
-matchingid INT,
+matchingid INT
 );
