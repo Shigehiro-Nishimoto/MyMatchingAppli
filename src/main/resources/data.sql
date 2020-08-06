@@ -19,8 +19,6 @@ INSERT INTO members (id, name, sex, birthday, mailaddress, password, role)
 VALUES(5, '木島薫', false, '1989-07-01', 'kaoru@yahoo.co.jp', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa', 'ROLE_GENERAL');
 
 
-
-
 INSERT INTO matchings (matchingid, maleid, femaleid, state)
 VALUES(1, 1, 4, 0);
 
@@ -66,4 +64,4 @@ INSERT INTO message (matchingid, whospost, number, messagecontent)
 VALUES(6, 5, 4, 'では新宿に７時で。');
 
 INSERT INTO message (matchingid, whospost, number, messagecontent)
-VALUES(6, 3, 5, '了解です！')
+VALUES(6, 3, 5, '了解です！');

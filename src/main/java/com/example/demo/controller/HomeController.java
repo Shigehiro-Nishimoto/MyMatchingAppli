@@ -9,12 +9,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.service.UserService;
-
-
 
 @Controller
 @RequestMapping
@@ -29,6 +28,7 @@ public class HomeController {
 	//ホーム画面のGETメソッド
 	@GetMapping("/home")
 	public String getHome(Model model) {
+		userService.LeaveMessageGamen();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String mailaddressnow = auth.getName();
         //ユーザーリストのモデルへの登録。
@@ -58,5 +58,13 @@ public class HomeController {
 	public String Matchingtohome() {
 	//ホーム画面にリダイレクト
 	return "redirect:/home";
+	}
+	
+	@PostMapping("/iineshita")
+	public String Iineshita() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String mailaddressnow = auth.getName();
+    int kakikaeta = userService.Iineshita(matchingid, mailaddressnow);
+	return "kakikaeta";
 	}
 }

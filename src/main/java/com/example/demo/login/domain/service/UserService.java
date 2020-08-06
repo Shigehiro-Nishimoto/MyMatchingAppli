@@ -93,6 +93,32 @@ public class UserService {
 		user.setBirthday((Date)who.get("birthday"));
 		int age = calcAge((String)who.get("mailaddress"));
 		user.setAge(age);
+
+		int thestate = (Integer)map.get("state");
+		
+		if(c == true) {
+				if(thestate == 0){
+					user.setShukantekistate(0);
+				}else if(thestate == 1){
+					user.setShukantekistate(1);
+				}else if(thestate == 2){
+					user.setShukantekistate(2);
+				}else{
+					user.setShukantekistate(3);
+				}
+			
+			}else {
+				if(thestate == 0){
+					user.setShukantekistate(0);
+				}else if(thestate == 1){
+					user.setShukantekistate(2);
+				}else if(thestate == 2){
+					user.setShukantekistate(1);
+				}else{
+					user.setShukantekistate(3);
+				}
+			}
+		
     	int e = (Integer)map.get("maleid");
     	int f = (Integer)map.get("femaleid");
     	boolean g = false;
@@ -134,5 +160,13 @@ public class UserService {
 	
 	public int LeaveMessageGamen() {
 	return dao.LeaveMessageGamen();
+	}
+	
+	public int Iineshita(int matchingid, String mailaddress) {
+		Map<String, Object> sexandid = dao.Roguinshanoidtoseibetsu(mailaddress);
+		boolean c = (Boolean)sexandid.get("sex");
+		int d = (Integer)sexandid.get("id");
+		int kakikaeta = dao.Iineshita(matchingid, c, d);
+	return kakikaeta;
 	}
 }

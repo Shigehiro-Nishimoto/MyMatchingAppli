@@ -24,11 +24,33 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 		<tr th:each="user : ${userList}">
 		<td th:text="${user.name} + 'さん'"></td>
 		<td th:text="${user.age} + '歳'"></td>
-		<td th:text="${user.state}"></td>
 		<td>
-		<a class="btn btn-primary">
-		いいねする
-		</a>
+		<span th:if="${user.shukantekistate == 0}">
+		お互いにいいねしていません。
+		</span>
+		<span th:if="${user.shukantekistate == 1}">
+		あなたのみいいねしています。
+		</span>
+		<span th:if="${user.shukantekistate == 2}">
+		相手のみいいねしています。
+		</span>
+		</td>
+
+		<td>
+		<span th:if="${user.shukantekistate == 0}">
+		<form method="post" th:action="@{/iineshita}">
+			<a class="btn btn-primary" type="submit">
+			いいねする
+			</a>
+		</form>
+		</span>
+		<span th:if="${user.shukantekistate == 2}">
+		<form method="post" th:action="@{/iineshita}">
+			<a class="btn btn-primary"  type="submit">
+			いいねする
+			</a>
+		</form>
+		</span>
 		</td>
 		</tr>
 	</table>

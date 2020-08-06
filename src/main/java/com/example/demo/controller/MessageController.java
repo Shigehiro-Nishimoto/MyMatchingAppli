@@ -107,10 +107,4 @@ public class MessageController extends HttpServlet {
 
 	        return "error";
 	    }
-	    
-		@PostMapping("/logoutfrommessage}")
-		public String postLogoutfromMessage(Model model){
-			userService.LeaveMessageGamen();
-			return "redirect:/logout";
-	   }
 }

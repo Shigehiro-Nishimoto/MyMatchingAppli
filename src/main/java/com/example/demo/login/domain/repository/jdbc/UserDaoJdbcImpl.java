@@ -153,11 +153,42 @@ PasswordEncoder passwordEncoder;
 	Map<String, Object> map = jdbc.queryForMap("SELECT Max(number) FROM message WHERE matchingid = ?", matchingid);
 	return  (Integer)map.get("Max(number)");
 	}
-	
+
 	public int LeaveMessageGamen() {
-		Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
-		int a = (Integer)map.get("matchingid");
-		int b = jdbc.update("DELETE FROM matchingaite WHERE matchingid = ?", a);
-		return b;
+		
+		int a = jdbc.queryForObject("SELECT COUNT(*) FROM matchingaite", Integer.class);
+		int b = 0;
+		int c = 0;
+		if(a == 0) {
+		}else {
+		Map<String, Object> map2 = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
+		b = (Integer)map2.get("matchingid");
+		c = jdbc.update("DELETE FROM matchingaite WHERE matchingid = ?", b);
+		}
+		return c;
+	}
+	
+	public Map<String, Object> Roguinshanoidtoseibetsu(String mailaddress){
+    	Map<String, Object> sexandid = jdbc.queryForMap("SELECT sex, id FROM members WHERE mailaddress = ?", mailaddress);
+    	return sexandid;
+	}
+	
+	public  int Iineshita (int matchingid, boolean sex, int id) {
+		
+		Map<String, Object> map = jdbc.queryForMap("SELECT state FROM matchings WHERE matchingid = ?", matchingid);
+		int imanostate = (Integer)map.get("state");
+		
+		int kakikaeta = 0;
+		
+		if(imanostate == 0) {
+			if(sex == true) {
+				kakikaeta = jdbc.update("UPDATE matchings SET state = 1");
+			}else {
+				kakikaeta = jdbc.update("UPDATE matchings SET state = 2");
+			}
+		}else {
+			kakikaeta = jdbc.update("UPDATE matchings SET state = 3");
+		}
+		return kakikaeta;
 	}
 }

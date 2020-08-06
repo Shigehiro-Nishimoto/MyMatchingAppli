@@ -38,4 +38,7 @@ public  int Donomessagegamennanoka();
 
 public int LeaveMessageGamen();
 
+public int Iineshita(int matchingid, boolean sex, int id);
+
+public Map<String, Object> Roguinshanoidtoseibetsu(String mailaddress);
 }
