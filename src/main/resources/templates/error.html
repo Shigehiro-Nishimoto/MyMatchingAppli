@@ -5,12 +5,14 @@
     <title>Error</title>
 </head>
 <body>
-    <!-- ポイント：各種エラー内容の表示 -->
+<center>
     <h1 th:text="${status} + ' ' + ${error}"></h1>
-    <p th:text="${message}"></p>
-    <p>ログイン画面に戻ってください</p>
+	<font size="5" color="red">何らかの問題が発生しました。</font><br><br>
+	<font size="3" color="blue">エラー</font><br>
+	<font size="3" color="blue">エラーが発生しています。</font><br><br>
     <form method="post" th:action="@{/logout}">
         <button class="btn btn-link" type="submit">ログイン画面に戻る</button>
     </form>
+</center>
 </body>
 </html>

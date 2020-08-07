@@ -71,9 +71,7 @@ public class SignupController {
 	        // login.htmlにリダイレクト
 	        return "redirect:/login";
 	    }
-
-
-
+	 
 		//DataAccessException発生時の処理メソッド
 	    @ExceptionHandler(DataAccessException.class)
 	    public String dataAccessExceptionHandler(DataAccessException e, Model model) {
