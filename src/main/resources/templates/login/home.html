@@ -38,18 +38,14 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 		<td>
 		<span th:if="${user.shukantekistate == 0}">
-		<form method="post" th:action="@{/iineshita}">
-			<a class="btn btn-primary" type="submit">
+			<a class="btn btn-primary" type="submit" th:href="@{'/iineshita/' + ${user.matchingid}}">
 			いいねする
 			</a>
-		</form>
 		</span>
 		<span th:if="${user.shukantekistate == 2}">
-		<form method="post" th:action="@{/iineshita}">
-			<a class="btn btn-primary"  type="submit">
+			<a class="btn btn-primary"  type="submit" th:href="@{'/iineshita/' + ${user.matchingid}}">
 			いいねする
 			</a>
-		</form>
 		</span>
 		</td>
 		</tr>

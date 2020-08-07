@@ -151,7 +151,12 @@ PasswordEncoder passwordEncoder;
 	
 	public int seebiggestnumber(int matchingid) {
 	Map<String, Object> map = jdbc.queryForMap("SELECT Max(number) FROM message WHERE matchingid = ?", matchingid);
-	return  (Integer)map.get("Max(number)");
+	System.out.println(map);
+	if((Integer)map.get("Max(number)") == null) {
+		return 0;
+	}else {
+		return  (Integer)map.get("Max(number)");
+	}
 	}
 
 	public int LeaveMessageGamen() {
@@ -182,12 +187,12 @@ PasswordEncoder passwordEncoder;
 		
 		if(imanostate == 0) {
 			if(sex == true) {
-				kakikaeta = jdbc.update("UPDATE matchings SET state = 1");
+				kakikaeta = jdbc.update("UPDATE matchings SET state = 1 WHERE matchingid = ?", matchingid);
 			}else {
-				kakikaeta = jdbc.update("UPDATE matchings SET state = 2");
+				kakikaeta = jdbc.update("UPDATE matchings SET state = 2 WHERE matchingid = ?", matchingid);
 			}
 		}else {
-			kakikaeta = jdbc.update("UPDATE matchings SET state = 3");
+			kakikaeta = jdbc.update("UPDATE matchings SET state = 3 WHERE matchingid = ?", matchingid);
 		}
 		return kakikaeta;
 	}

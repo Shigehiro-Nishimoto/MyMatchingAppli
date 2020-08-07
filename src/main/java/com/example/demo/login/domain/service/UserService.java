@@ -144,6 +144,9 @@ public class UserService {
     int matchingidnow = dao.Donomessagegamennanoka();
 
     int theid = dao.whosloggingin(mailaddressnow);
+    
+
+    //これが原因
     int newnumber = 1 + dao.seebiggestnumber(matchingidnow);
 
 	writtenall.put("matchingid", matchingidnow);

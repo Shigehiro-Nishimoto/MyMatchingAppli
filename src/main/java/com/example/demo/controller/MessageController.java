@@ -58,11 +58,12 @@ public class MessageController extends HttpServlet {
 	    public String postSignUp(@ModelAttribute  @Validated MessageBox form, BindingResult bindingResult, Model model) {
 	        //入力チェックに引っかかった場合、ユーザー登録画面に戻る
 	        if (bindingResult.hasErrors()) {
-	        //GETリクエスト用のメソッドを呼び出して、ユーザー登録画面に戻る
+	        System.out.println("入力チェックにひっかかりました。");
 	            return getMessage(model);
 	        }
 
 	        String written = form.getNowwritten();
+	        
 	        int result = userService.MessageWritten(written);
 
 	        if (result > 0) {
