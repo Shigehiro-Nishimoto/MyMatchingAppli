@@ -144,9 +144,7 @@ public class UserService {
     int matchingidnow = dao.Donomessagegamennanoka();
 
     int theid = dao.whosloggingin(mailaddressnow);
-    
 
-    //これが原因
     int newnumber = 1 + dao.seebiggestnumber(matchingidnow);
 
 	writtenall.put("matchingid", matchingidnow);
@@ -171,5 +169,10 @@ public class UserService {
 		int d = (Integer)sexandid.get("id");
 		int kakikaeta = dao.Iineshita(matchingid, c, d);
 	return kakikaeta;
+	}
+	
+	public String Hisname(int matchingid, String mailaddressnow) {
+	String hisname = dao.Hisname(matchingid, mailaddressnow);
+	return hisname;
 	}
 }

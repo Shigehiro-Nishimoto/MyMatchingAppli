@@ -72,7 +72,7 @@ PasswordEncoder passwordEncoder;
     	Map<String, Object> sexandid = jdbc.queryForMap("SELECT sex, id FROM members WHERE mailaddress = ?", mailaddress);
     	return sexandid;
 	}
-	
+
 	//●●渡されたマッチング表のレコードから、User型のデータを完成させるメソッド２●●
 	public Map<String, Object> TheSelect2(Map<String, Object> map, int b) throws DataAccessException {
 	Map<String, Object> who = jdbc.queryForMap("SELECT * FROM members WHERE id = ?", b);
@@ -116,9 +116,12 @@ PasswordEncoder passwordEncoder;
 			onemessage.setWhospost((Integer)map.get("whospost"));
 			onemessage.setNumber((Integer)map.get("number"));
 			onemessage.setMessagecontent((String)map.get("messagecontent"));
+			int whospost = (Integer)map.get("whospost");
+			Map<String, Object> sex = jdbc.queryForMap("SELECT sex FROM members WHERE id = ?", whospost);
+			onemessage.setSex((Boolean)sex.get("sex"));
 			Message.add(onemessage);
 			}
-		
+
 		int a1 = jdbc.queryForObject("SELECT COUNT(*) FROM matchingaite", Integer.class);
 		if(a1 == 0) {
 		int matchingaitekakikomi = jdbc.update("INSERT INTO matchingaite(matchingid) VALUES(?)", matchingid);
@@ -126,29 +129,29 @@ PasswordEncoder passwordEncoder;
 		}
 		return Message;
 		}
-	
+
 	public int MessageWritten(Map<String, Object> written) {
 	    int rowNumber2 = jdbc.update("INSERT INTO message(matchingid, whospost, number, messagecontent) VALUES(?, ?, ?, ?)", (Integer)written.get("matchingid"), (Integer)written.get("whospost"), (Integer)written.get("number"), (String)written.get("messagecontent"));
 		return rowNumber2;
 	}
-	
+
 	public int CheckMatchingid() {
 		Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
 		int a = (Integer)map.get("matchingid");
 		return a;
 	}
-	
+
 	public int whosloggingin(String mailaddress) {
 	Map<String, Object> map = jdbc.queryForMap("SELECT id FROM members WHERE mailaddress = ?", mailaddress);
 	int a = (Integer)map.get("id");
 	return a;
 	}
-	
+
 	public int Donomessagegamennanoka() {
 	Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
 	return  (Integer)map.get("matchingid");
 	}
-	
+
 	public int seebiggestnumber(int matchingid) {
 	Map<String, Object> map = jdbc.queryForMap("SELECT Max(number) FROM message WHERE matchingid = ?", matchingid);
 	System.out.println(map);
@@ -160,7 +163,7 @@ PasswordEncoder passwordEncoder;
 	}
 
 	public int LeaveMessageGamen() {
-		
+
 		int a = jdbc.queryForObject("SELECT COUNT(*) FROM matchingaite", Integer.class);
 		int b = 0;
 		int c = 0;
@@ -172,19 +175,19 @@ PasswordEncoder passwordEncoder;
 		}
 		return c;
 	}
-	
+
 	public Map<String, Object> Roguinshanoidtoseibetsu(String mailaddress){
     	Map<String, Object> sexandid = jdbc.queryForMap("SELECT sex, id FROM members WHERE mailaddress = ?", mailaddress);
     	return sexandid;
 	}
-	
+
 	public  int Iineshita (int matchingid, boolean sex, int id) {
-		
+
 		Map<String, Object> map = jdbc.queryForMap("SELECT state FROM matchings WHERE matchingid = ?", matchingid);
 		int imanostate = (Integer)map.get("state");
-		
+
 		int kakikaeta = 0;
-		
+
 		if(imanostate == 0) {
 			if(sex == true) {
 				kakikaeta = jdbc.update("UPDATE matchings SET state = 1 WHERE matchingid = ?", matchingid);
@@ -195,5 +198,22 @@ PasswordEncoder passwordEncoder;
 			kakikaeta = jdbc.update("UPDATE matchings SET state = 3 WHERE matchingid = ?", matchingid);
 		}
 		return kakikaeta;
+	}
+
+	public String Hisname(int matchingid, String mailaddressnow){
+    	Map<String, Object> sex1 = jdbc.queryForMap("SELECT sex FROM members WHERE mailaddress = ?", mailaddressnow);
+    	boolean sex = (boolean)sex1.get("sex");
+    	int id = 0;
+    	if(sex == true) {
+    		
+        	Map<String, Object> theid = jdbc.queryForMap("SELECT femaleid FROM matchings WHERE matchingid = ?", matchingid);
+        	id = (Integer)theid.get("femaleid");
+    	}else {
+        	Map<String, Object> theid = jdbc.queryForMap("SELECT maleid FROM matchings WHERE matchingid = ?", matchingid);
+        	id = (Integer)theid.get("maleid");
+    	}
+    	Map<String, Object> name = jdbc.queryForMap("SELECT name FROM members WHERE id = ?", id);
+    	String hisname = (String)name.get("name");
+    	return hisname;
 	}
 }

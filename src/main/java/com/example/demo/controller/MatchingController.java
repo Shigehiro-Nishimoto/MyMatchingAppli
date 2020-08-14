@@ -41,6 +41,11 @@ public class MatchingController {
 	int matchingid = Integer.parseInt(request.getParameter("matchingid"));
 	List<Message> messagetoShow = userService.takeMessage(matchingid);
 	model.addAttribute("messagetoShow", messagetoShow);
+	
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String mailaddressnow = auth.getName();
+	String hisname = userService.Hisname(matchingid, mailaddressnow);
+	model.addAttribute("hisname", hisname);
 	return "login/message";
 	}
 }

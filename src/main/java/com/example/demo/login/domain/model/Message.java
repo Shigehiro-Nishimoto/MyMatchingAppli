@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class Message {
 
+public boolean sex;
 public int matchingid;
 public int whospost;
 public int number;

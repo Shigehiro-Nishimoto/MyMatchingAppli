@@ -39,7 +39,15 @@ public class MessageController extends HttpServlet {
 	//メッセージ画面のGETメソッド
 	@GetMapping("/message")
 	public String getMessage(Model model) {
-		return "login/message";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String mailaddressnow = auth.getName();
+    	int matchingid = userService.CheckMatchingid();
+    	model.addAttribute("contents", "login/message :: messagetoShow_contents");
+    	List<Message> messagetoShow = userService.takeMessage(matchingid);
+    	model.addAttribute("messagetoShow", messagetoShow);
+    	String hisname = userService.Hisname(matchingid, mailaddressnow);
+    	model.addAttribute("hisname", hisname);
+    	return "login/message";
 	}
 
 	@GetMapping("/messagetomatching")
@@ -59,7 +67,7 @@ public class MessageController extends HttpServlet {
 	        //入力チェックに引っかかった場合、ユーザー登録画面に戻る
 	        if (bindingResult.hasErrors()) {
 	        System.out.println("入力チェックにひっかかりました。");
-	            return getMessage(model);
+	        return getMessage(model);
 	        }
 
 	        String written = form.getNowwritten();
@@ -75,6 +83,10 @@ public class MessageController extends HttpServlet {
 	    	model.addAttribute("contents", "login/message :: messagetoShow_contents");
 	    	List<Message> messagetoShow = userService.takeMessage(matchingid);
 	    	model.addAttribute("messagetoShow", messagetoShow);
+	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	        String mailaddressnow = auth.getName();
+	    	String hisname = userService.Hisname(matchingid, mailaddressnow);
+	    	model.addAttribute("hisname", hisname);
 	    	return "login/message";
 	    }
 
