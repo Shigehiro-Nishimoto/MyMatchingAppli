@@ -102,4 +102,11 @@ public class SignupController {
 
 	        return "error";
 	    }
+	    
+		@GetMapping("/tologin")
+		public String ToLogin() {
+		//ホーム画面にリダイレクト
+		return "login/login";
+		}
+
 }

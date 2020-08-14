@@ -15,11 +15,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 	<div th:fragment="messagetoShow_contents">
 	<table class="table table-bordered">
 		<tr>
-		<th class="info col-sm-2">内容（男性がブルー、女性がピンクです。）</th>
+		<th class="bg-dark"><p class="text-center">内容（男性がブルー、女性がピンクです。）</p></th>
 		</tr>
 		<tr th:each="message : ${messagetoShow}">
 		<span th:if="${message.sex == true}">
-		<td th:text="${message.messagecontent}" class="bg-success"></td>
+		<td th:text="${message.messagecontent}" class="bg-info"></td>
 		</span>
 		<span th:if="${message.sex == false}">
 		<td th:text="${message.messagecontent}" class="bg-danger"></td>
@@ -32,7 +32,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
        <form method="post" th:action="@{/newmessage}" th:object="${messageBox}">
             <table class="table table-bordered table-hover">
                 <tr>
-                    <th class="active col-sm-3">入力欄</th>
+                    <th class="active col-sm-3"><p class="text-center">入力欄</p></th>
                     <td>
                         <div class="form-group" th:classappend="${#fields.hasErrors('nowwritten')} ? 'has-error'">
                             <input type="text" class="form-control" th:field="*{nowwritten}" />
