@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-	web.ignoring().antMatchers("/webjars/∗∗","/css/∗∗");
+	web.ignoring().antMatchers("/webjars/**","/css/**");
 	}
 
 	@Override
@@ -46,9 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //直リンクなどの設定
 		http
 	    .authorizeRequests()
-	    .antMatchers("/webjars/∗∗").permitAll()
-        .antMatchers("/login"). permitAll()
-        .antMatchers("/signup"). permitAll()
+	    .antMatchers("/webjars/**").permitAll()
+	    .antMatchers("/css/**").permitAll()
+        .antMatchers("/login").permitAll()
+        .antMatchers("/signup").permitAll()
         .anyRequest().authenticated();
 
 //ログイン処理
