@@ -26,6 +26,17 @@ public class LoginTest {
         //画面表示内容の確認
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("メールアドレス")));
+                .andExpect(content().string(containsString("メールアドレス")))
+        		.andExpect(content().string(containsString("パスワード")));
+    }
+    
+    @Test
+    public void ホーム画面表示() throws Exception {
+
+        //画面表示内容の確認
+        mockMvc.perform(get("/login"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("メールアドレス")))
+        		.andExpect(content().string(containsString("パスワード")));
     }
 }

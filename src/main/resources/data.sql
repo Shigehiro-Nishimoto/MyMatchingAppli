@@ -23,7 +23,7 @@ INSERT INTO members (id, name, sex, birthday, mailaddress, password, role)
 VALUES(6, 'キム', false, '2004-07-01', 'kim@yahoo.co.jp', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa', 'ROLE_GENERAL');
 
 INSERT INTO matchings (matchingid, maleid, femaleid, state)
-VALUES(1, 1, 4, 0);
+VALUES(1, 1, 4, 3);
 
 INSERT INTO matchings (matchingid, maleid, femaleid, state)
 VALUES(2, 1, 5, 0);
@@ -47,4 +47,10 @@ INSERT INTO matchings (matchingid, maleid, femaleid, state)
 VALUES(8, 3, 5, 0);
 
 INSERT INTO matchings (matchingid, maleid, femaleid, state)
-VALUES(9, 3, 6, 3);
+VALUES(9, 3, 6, 0);
+
+INSERT INTO message (matchingid, whospost, number, messagecontent)
+VALUES(1, 1, 1, 'はじめまして！');
+
+INSERT INTO message (matchingid, whospost, number, messagecontent)
+VALUES(1, 4, 2, 'こちらこそ！');

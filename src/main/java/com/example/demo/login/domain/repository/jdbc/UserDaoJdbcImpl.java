@@ -56,7 +56,6 @@ PasswordEncoder passwordEncoder;
 			    w = w + 1;
 				}
 		}
-
 	    return rowNumber;
 	}
 

@@ -36,17 +36,13 @@ public class HomeController {
 		model.addAttribute("contents", "login/home :: userList_contents");
 		List<User> userList = userService.selectBeforematching(mailaddressnow);
 		model.addAttribute("userList", userList);
-
         //モデルへのログイン者の名前の登録。
         User a = userService.Name(mailaddressnow);
         String thename = a.name;
         model.addAttribute("thename", thename);
-        
         int theage = userService.calcAge(mailaddressnow);
         model.addAttribute("theage", theage);
-
         return "login/home";
-
 	}
 
 	@GetMapping("/hometomatching")
