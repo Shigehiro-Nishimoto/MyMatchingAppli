@@ -22,23 +22,19 @@ public class HomeController {
 
 	@Autowired
 	JdbcTemplate jdbc;
-	
+
 	@Autowired
 	UserService userService;
 
-	//ホーム画面のGETメソッド
 	@GetMapping("/home")
 	public String getHome(Model model) {
 		userService.LeaveMessageGamen();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String mailaddressnow = auth.getName();
-        //ユーザーリストのモデルへの登録。
 		model.addAttribute("contents", "login/home :: userList_contents");
 		List<User> userList = userService.selectBeforematching(mailaddressnow);
 		model.addAttribute("userList", userList);
-        //モデルへのログイン者の名前の登録。
-        User a = userService.Name(mailaddressnow);
-        String thename = a.name;
+        String thename = userService.Name(mailaddressnow).name;
         model.addAttribute("thename", thename);
         int theage = userService.calcAge(mailaddressnow);
         model.addAttribute("theage", theage);
@@ -47,19 +43,14 @@ public class HomeController {
 
 	@GetMapping("/hometomatching")
 	public String Hometomatching() {
-	//マッチング画面にリダイレクト
 	return "redirect:/matching";
 	}
 
 	@GetMapping("/matchingtohome")
 	public String Matchingtohome() {
-	//ホーム画面にリダイレクト
 	return "redirect:/home";
 	}
 
-	
-	//【いいねに関する処理】
-	
 	@GetMapping("/iineshita/{id}")
 	public String Iineshita(@ModelAttribute User form, Model model, @PathVariable("id") int matchingid) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();

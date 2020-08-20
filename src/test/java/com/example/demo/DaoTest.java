@@ -116,11 +116,10 @@ public class DaoTest {
 
     @Test
     public void TheSelect1() {
-    	Map<String, Object> map = new HashMap<String, Object>();
     	Map<String, Object> sexandid = new HashMap<String, Object>();
     	sexandid.put("SEX", true);
     	sexandid.put("ID", 1);
-        assertEquals(dao.TheSelect1(map, "micheal@yahoo.co.jp"), sexandid);
+        assertEquals(dao.TheSelect1("micheal@yahoo.co.jp"), sexandid);
     }
 
     @Test
@@ -133,7 +132,6 @@ public class DaoTest {
         e.printStackTrace();
         }
 
-    	Map<String, Object> map = new HashMap<String, Object>();
     	Map<String, Object> who = new HashMap<String, Object>();
     	who.put("ID", 1);
     	who.put("NAME", "マイケル");
@@ -142,7 +140,7 @@ public class DaoTest {
     	who.put("MAILADDRESS", "micheal@yahoo.co.jp");
     	who.put("PASSWORD", "$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa");
     	who.put("ROLE", "ROLE_GENERAL");
-        assertEquals(dao.TheSelect2(map, 1), who);
+        assertEquals(dao.TheSelect2(1), who);
 
     }
 
@@ -190,10 +188,51 @@ public class DaoTest {
     	writtenall.put("messagecontent", "趣味は何ですか？");
         assertEquals(dao.MessageWritten(writtenall), 1);
     }
-    
+
     @Test
     @Sql("/daotest.sql")
     public void CheckMatchingid() {
         assertEquals(dao.CheckMatchingid(), 1);
+    }
+
+    @Test
+    public void whosloggingin() {
+        assertEquals(dao.whosloggingin("micheal@yahoo.co.jp"), 1);
+    }
+
+    @Test
+    public void seebiggestnumber() {
+        assertEquals(dao.seebiggestnumber(1), 2);
+        assertEquals(dao.seebiggestnumber(2), 0);
+    }
+
+    @Test
+    public void LeaveMessageGamen1() {
+        assertEquals(dao.LeaveMessageGamen(), 0);
+    }
+
+    @Test
+    @Sql("/daotest.sql")
+    public void LeaveMessageGamen2() {
+        assertEquals(dao.LeaveMessageGamen(), 1);
+    }
+
+    @Test
+    @Sql("/daotest.sql")
+    public void Roguinshanoidtoseibetsu() {
+    	Map<String, Object> sexandid = new HashMap();
+    	sexandid.put("ID", 1);
+    	sexandid.put("SEX", true);
+        assertEquals(dao.Roguinshanoidtoseibetsu("micheal@yahoo.co.jp"), sexandid);
+    }
+
+    @Test
+    public void Iineshita() {
+        assertEquals(dao.Iineshita(2, true), 1);
+    }
+
+    @Test
+    public void Hisname() {
+        assertEquals(dao.Hisname(1, "micheal@yahoo.co.jp"), "メイシー");
     }
 }

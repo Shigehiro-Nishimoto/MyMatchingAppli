@@ -67,13 +67,13 @@ PasswordEncoder passwordEncoder;
 		}
 
 	//●●渡されたマッチング表のレコードから、User型のデータを完成させるメソッド１●●
-	public Map<String, Object> TheSelect1(Map<String, Object> map, String mailaddress) throws DataAccessException {
+	public Map<String, Object> TheSelect1(String mailaddress) throws DataAccessException {
     	Map<String, Object> sexandid = jdbc.queryForMap("SELECT sex, id FROM members WHERE mailaddress = ?", mailaddress);
     	return sexandid;
 	}
 
 	//●●渡されたマッチング表のレコードから、User型のデータを完成させるメソッド２●●
-	public Map<String, Object> TheSelect2(Map<String, Object> map, int b) throws DataAccessException {
+	public Map<String, Object> TheSelect2(int b) throws DataAccessException {
 	Map<String, Object> who = jdbc.queryForMap("SELECT * FROM members WHERE id = ?", b);
 	return who;
 	}
@@ -135,20 +135,14 @@ PasswordEncoder passwordEncoder;
 	}
 
 	public int CheckMatchingid() {
-		Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
-		int a = (Integer)map.get("matchingid");
-		return a;
+	Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
+	return (Integer)map.get("matchingid");
 	}
 
 	public int whosloggingin(String mailaddress) {
 	Map<String, Object> map = jdbc.queryForMap("SELECT id FROM members WHERE mailaddress = ?", mailaddress);
 	int a = (Integer)map.get("id");
 	return a;
-	}
-
-	public int Donomessagegamennanoka() {
-	Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
-	return  (Integer)map.get("matchingid");
 	}
 
 	public int seebiggestnumber(int matchingid) {
@@ -158,11 +152,10 @@ PasswordEncoder passwordEncoder;
 		return 0;
 	}else {
 		return  (Integer)map.get("Max(number)");
-	}
+		}
 	}
 
 	public int LeaveMessageGamen() {
-
 		int a = jdbc.queryForObject("SELECT COUNT(*) FROM matchingaite", Integer.class);
 		int b = 0;
 		int c = 0;
@@ -180,7 +173,7 @@ PasswordEncoder passwordEncoder;
     	return sexandid;
 	}
 
-	public  int Iineshita (int matchingid, boolean sex, int id) {
+	public  int Iineshita (int matchingid, boolean sex) {
 
 		Map<String, Object> map = jdbc.queryForMap("SELECT state FROM matchings WHERE matchingid = ?", matchingid);
 		int imanostate = (Integer)map.get("state");
@@ -204,7 +197,6 @@ PasswordEncoder passwordEncoder;
     	boolean sex = (boolean)sex1.get("sex");
     	int id = 0;
     	if(sex == true) {
-    		
         	Map<String, Object> theid = jdbc.queryForMap("SELECT femaleid FROM matchings WHERE matchingid = ?", matchingid);
         	id = (Integer)theid.get("femaleid");
     	}else {

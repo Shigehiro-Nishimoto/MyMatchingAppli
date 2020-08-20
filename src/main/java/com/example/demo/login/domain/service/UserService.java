@@ -74,7 +74,7 @@ public class UserService {
 		}
 	
 	public User TheSelect(Map<String, Object> map, String mailaddress) throws DataAccessException {
-		Map<String, Object> sexandid = dao.TheSelect1(map, mailaddress);
+		Map<String, Object> sexandid = dao.TheSelect1(mailaddress);
 	    boolean c = (Boolean)sexandid.get("sex");
 	    int d = (Integer)sexandid.get("id");
 	    	int b = 0;
@@ -84,7 +84,7 @@ public class UserService {
 		    	b = (Integer)map.get("maleid");
 	    	}
 
-		Map<String, Object> who = dao.TheSelect2(map, b);
+		Map<String, Object> who = dao.TheSelect2(b);
 		
 		User user = new User();
 		user.setMatchingid((Integer)map.get("matchingid"));
@@ -141,7 +141,7 @@ public class UserService {
 
     String mailaddressnow = auth.getName();
 
-    int matchingidnow = dao.Donomessagegamennanoka();
+    int matchingidnow = dao.CheckMatchingid();
 
     int theid = dao.whosloggingin(mailaddressnow);
 
@@ -166,8 +166,7 @@ public class UserService {
 	public int Iineshita(int matchingid, String mailaddress) {
 		Map<String, Object> sexandid = dao.Roguinshanoidtoseibetsu(mailaddress);
 		boolean c = (Boolean)sexandid.get("sex");
-		int d = (Integer)sexandid.get("id");
-		int kakikaeta = dao.Iineshita(matchingid, c, d);
+		int kakikaeta = dao.Iineshita(matchingid, c);
 	return kakikaeta;
 	}
 	

@@ -22,9 +22,9 @@ public int calcAge(String mailaddress)  throws DataAccessException;
 
 public List<Message> takeMessage(int matchingid) throws DataAccessException;
 
-public Map<String, Object> TheSelect1(Map<String, Object> map, String mailaddress);
+public Map<String, Object> TheSelect1(String mailaddress);
 
-public Map<String, Object> TheSelect2(Map<String, Object> map, int b);
+public Map<String, Object> TheSelect2(int b);
 
 public int MessageWritten(Map<String, Object> q);
 
@@ -34,11 +34,9 @@ public  int whosloggingin(String mailaddress);
 
 public  int seebiggestnumber(int matchingid);
 
-public  int Donomessagegamennanoka();
-
 public int LeaveMessageGamen();
 
-public int Iineshita(int matchingid, boolean sex, int id);
+public int Iineshita(int matchingid, boolean sex);
 
 public Map<String, Object> Roguinshanoidtoseibetsu(String mailaddress);
 
