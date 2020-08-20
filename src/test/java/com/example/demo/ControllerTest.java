@@ -74,5 +74,6 @@ public class ControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("こんにちは。")))
                 .andExpect(content().string(containsString("気になる方に「いいね」してみましょう。")));
+
     }
 }
