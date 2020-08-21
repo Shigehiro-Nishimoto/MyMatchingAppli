@@ -141,7 +141,6 @@ public class DaoTest {
     	who.put("PASSWORD", "$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa");
     	who.put("ROLE", "ROLE_GENERAL");
         assertEquals(dao.TheSelect2(1), who);
-
     }
 
     @Test

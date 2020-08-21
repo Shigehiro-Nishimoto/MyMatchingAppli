@@ -32,7 +32,7 @@ public class MessageController extends HttpServlet {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	JdbcTemplate jdbc;
 
@@ -61,7 +61,7 @@ public class MessageController extends HttpServlet {
 	userService.LeaveMessageGamen();
 	return "login/matching";
 	}
-	
+
 	 @PostMapping("/newmessage")
 	    public String postSignUp(@ModelAttribute  @Validated MessageBox form, BindingResult bindingResult, Model model) {
 	        //入力チェックに引っかかった場合、ユーザー登録画面に戻る
@@ -71,7 +71,7 @@ public class MessageController extends HttpServlet {
 	        }
 
 	        String written = form.getNowwritten();
-	        
+
 	        int result = userService.MessageWritten(written);
 
 	        if (result > 0) {
@@ -93,31 +93,18 @@ public class MessageController extends HttpServlet {
 		//DataAccessException発生時の処理メソッド
 	    @ExceptionHandler(DataAccessException.class)
 	    public String dataAccessExceptionHandler(DataAccessException e, Model model) {
-
-	        // 例外クラスのメッセージをModelに登録
 	        model.addAttribute("error", "内部サーバーエラー（DB）：ExceptionHandler");
-
-	        // 例外クラスのメッセージをModelに登録
 	        model.addAttribute("message", "DataAccessExceptionが発生しました");
-
-	        // HTTPのエラーコード（500）をModelに登録
 	        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
-
 	        return "error";
 	    }
+
 	    //Exception発生時の処理メソッド
 	    @ExceptionHandler(Exception.class)
 	    public String exceptionHandler(Exception e, Model model) {
-
-	        // 例外クラスのメッセージをModelに登録
 	        model.addAttribute("error", "内部サーバーエラー：ExceptionHandler");
-
-	        // 例外クラスのメッセージをModelに登録
 	        model.addAttribute("message", "Exceptionが発生しました");
-
-	        // HTTPのエラーコード（500）をModelに登録
 	        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
-
 	        return "error";
 	    }
 }

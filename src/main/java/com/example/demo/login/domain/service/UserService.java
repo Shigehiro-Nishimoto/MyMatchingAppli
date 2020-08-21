@@ -30,7 +30,7 @@ public class UserService {
         }
         return result;
     }
-	
+
 	public List<User> selectBeforematching(String mailaddress) {
 		List<Map<String, Object>> getList = dao.getallfromMatching();
 		List<User> userList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class UserService {
 	public List<Message> takeMessage(int matchingid) {
 		return dao.takeMessage(matchingid);
 		}
-	
+
 	public User TheSelect(Map<String, Object> map, String mailaddress) throws DataAccessException {
 		Map<String, Object> sexandid = dao.TheSelect1(mailaddress);
 	    boolean c = (Boolean)sexandid.get("sex");
@@ -85,7 +85,7 @@ public class UserService {
 	    	}
 
 		Map<String, Object> who = dao.TheSelect2(b);
-		
+
 		User user = new User();
 		user.setMatchingid((Integer)map.get("matchingid"));
 		user.setState((Integer)map.get("state"));
@@ -95,7 +95,7 @@ public class UserService {
 		user.setAge(age);
 
 		int thestate = (Integer)map.get("state");
-		
+
 		if(c == true) {
 				if(thestate == 0){
 					user.setShukantekistate(0);
@@ -106,7 +106,7 @@ public class UserService {
 				}else{
 					user.setShukantekistate(3);
 				}
-			
+
 			}else {
 				if(thestate == 0){
 					user.setShukantekistate(0);
@@ -118,7 +118,7 @@ public class UserService {
 					user.setShukantekistate(3);
 				}
 			}
-		
+
     	int e = (Integer)map.get("maleid");
     	int f = (Integer)map.get("femaleid");
     	boolean g = false;
@@ -138,13 +138,9 @@ public class UserService {
 	public int MessageWritten(String written) {
 	Map<String, Object> writtenall = new HashMap();
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
     String mailaddressnow = auth.getName();
-
     int matchingidnow = dao.CheckMatchingid();
-
     int theid = dao.whosloggingin(mailaddressnow);
-
     int newnumber = 1 + dao.seebiggestnumber(matchingidnow);
 
 	writtenall.put("matchingid", matchingidnow);
@@ -158,18 +154,18 @@ public class UserService {
 	public int CheckMatchingid() {
 	return dao.CheckMatchingid();
 	}
-	
+
 	public int LeaveMessageGamen() {
 	return dao.LeaveMessageGamen();
 	}
-	
+
 	public int Iineshita(int matchingid, String mailaddress) {
 		Map<String, Object> sexandid = dao.Roguinshanoidtoseibetsu(mailaddress);
 		boolean c = (Boolean)sexandid.get("sex");
 		int kakikaeta = dao.Iineshita(matchingid, c);
 	return kakikaeta;
 	}
-	
+
 	public String Hisname(int matchingid, String mailaddressnow) {
 	String hisname = dao.Hisname(matchingid, mailaddressnow);
 	return hisname;

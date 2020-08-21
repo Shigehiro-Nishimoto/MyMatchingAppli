@@ -19,6 +19,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.example.demo.login.domain.model.Message;
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.service.UserService;
 
@@ -72,7 +73,34 @@ public class ControllerTest {
 
         mockMvc.perform(get("/home"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("こんにちは。")))
+                .andExpect(content().string(containsString("グレイ")))
+                .andExpect(content().string(containsString("さん（")))
+                .andExpect(content().string(containsString("17")))
+                .andExpect(content().string(containsString("歳）こんにちは。")))
                 .andExpect(content().string(containsString("気になる方に「いいね」してみましょう。")));
+    }
+
+    @Test
+    @WithMockUser
+    public void マッチング画面表示() throws Exception {
+        mockMvc.perform(get("/matching"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("お互いにいいねした方の一覧です。")))
+                .andExpect(content().string(containsString("メッセージ画面を開き、お話ししましょう！")));
+    }
+
+    @Test
+    @WithMockUser
+    public void メッセージ画面表示() throws Exception {
+
+		List<Message> Message = new ArrayList<>();
+
+    	when(userService.CheckMatchingid()).thenReturn(1);
+    	when(userService.takeMessage(anyInt())).thenReturn(Message);
+    	when(userService.Hisname(anyInt(), anyString())).thenReturn("ボブ");
+
+        mockMvc.perform(get("/message"))
+       .andExpect(status().isOk())
+        .andExpect(content().string(containsString("ボブ")));
     }
 }
