@@ -99,8 +99,8 @@ public class ControllerTest {
     	when(userService.takeMessage(anyInt())).thenReturn(Message);
     	when(userService.Hisname(anyInt(), anyString())).thenReturn("ボブ");
 
-        mockMvc.perform(get("/message"))
+        mockMvc.perform(get("/tomessage"))
        .andExpect(status().isOk())
-        .andExpect(content().string(containsString("ボブ")));
+       .andExpect(content().string(containsString("ボブ")));
     }
 }

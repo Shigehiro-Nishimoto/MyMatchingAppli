@@ -36,8 +36,6 @@ public class MessageController extends HttpServlet {
 	@Autowired
 	JdbcTemplate jdbc;
 
-	//メッセージ画面のGETメソッド
-	@GetMapping("/message")
 	public String getMessage(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String mailaddressnow = auth.getName();
@@ -48,6 +46,34 @@ public class MessageController extends HttpServlet {
     	String hisname = userService.Hisname(matchingid, mailaddressnow);
     	model.addAttribute("hisname", hisname);
     	return "login/message";
+	}
+
+	@GetMapping("/tomessage")
+	public String URLChokuuchiTaisaku1(@ModelAttribute MessageBox form, Model model) {
+		model.addAttribute("contents", "login/message :: messagetoShow_contents");
+		int matchingid = userService.CheckMatchingid();
+		List<Message> messagetoShow = userService.takeMessage(matchingid);
+		model.addAttribute("messagetoShow", messagetoShow);
+
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String mailaddressnow = auth.getName();
+		String hisname = userService.Hisname(matchingid, mailaddressnow);
+		model.addAttribute("hisname", hisname);
+		return "login/message";
+	}
+
+	@GetMapping("/newmessage")
+	public String URLChokuuchiTaisaku2(@ModelAttribute MessageBox form, Model model) {
+		model.addAttribute("contents", "login/message :: messagetoShow_contents");
+		int matchingid = userService.CheckMatchingid();
+		List<Message> messagetoShow = userService.takeMessage(matchingid);
+		model.addAttribute("messagetoShow", messagetoShow);
+
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String mailaddressnow = auth.getName();
+		String hisname = userService.Hisname(matchingid, mailaddressnow);
+		model.addAttribute("hisname", hisname);
+		return "login/message";
 	}
 
 	@GetMapping("/messagetomatching")
@@ -64,7 +90,6 @@ public class MessageController extends HttpServlet {
 
 	 @PostMapping("/newmessage")
 	    public String postSignUp(@ModelAttribute  @Validated MessageBox form, BindingResult bindingResult, Model model) {
-	        //入力チェックに引っかかった場合、ユーザー登録画面に戻る
 	        if (bindingResult.hasErrors()) {
 	        System.out.println("入力チェックにひっかかりました。");
 	        return getMessage(model);
@@ -90,7 +115,6 @@ public class MessageController extends HttpServlet {
 	    	return "login/message";
 	    }
 
-		//DataAccessException発生時の処理メソッド
 	    @ExceptionHandler(DataAccessException.class)
 	    public String dataAccessExceptionHandler(DataAccessException e, Model model) {
 	        model.addAttribute("error", "内部サーバーエラー（DB）：ExceptionHandler");
@@ -99,7 +123,6 @@ public class MessageController extends HttpServlet {
 	        return "error";
 	    }
 
-	    //Exception発生時の処理メソッド
 	    @ExceptionHandler(Exception.class)
 	    public String exceptionHandler(Exception e, Model model) {
 	        model.addAttribute("error", "内部サーバーエラー：ExceptionHandler");
