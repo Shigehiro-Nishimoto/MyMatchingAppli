@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.demo.login.domain.model.Message;
+import com.example.demo.login.domain.model.MessageBox;
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.service.UserService;
 
@@ -38,6 +39,7 @@ public class ControllerTest {
     public void ログイン画面表示() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
+                .andExpect(view().name("login/login"))
                 .andExpect(content().string(containsString("マッチングアプリ")))
                 .andExpect(content().string(containsString("メールアドレス")))
         		.andExpect(content().string(containsString("パスワード")))
@@ -77,21 +79,28 @@ public class ControllerTest {
                 .andExpect(content().string(containsString("さん（")))
                 .andExpect(content().string(containsString("17")))
                 .andExpect(content().string(containsString("歳）こんにちは。")))
-                .andExpect(content().string(containsString("気になる方に「いいね」してみましょう。")));
+                .andExpect(content().string(containsString("気になる方に「いいね」してみましょう。")))
+        		.andExpect(model().attribute("thename", "グレイ"));
     }
 
     @Test
     @WithMockUser
     public void マッチング画面表示() throws Exception {
+
+    	List<User> userList = new ArrayList<User>();
+
+    	when(userService.selectAftermatching(anyString())).thenReturn(userList);
+
         mockMvc.perform(get("/matching"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("お互いにいいねした方の一覧です。")))
-                .andExpect(content().string(containsString("メッセージ画面を開き、お話ししましょう！")));
+                .andExpect(content().string(containsString("メッセージ画面を開き、お話ししましょう！")))
+        		.andExpect(model().attribute("userList", userList));
     }
 
     @Test
     @WithMockUser
-    public void メッセージ画面表示() throws Exception {
+    public void メッセージ画面表示１() throws Exception {
 
 		List<Message> Message = new ArrayList<>();
 
@@ -102,5 +111,60 @@ public class ControllerTest {
         mockMvc.perform(get("/tomessage"))
        .andExpect(status().isOk())
        .andExpect(content().string(containsString("ボブ")));
+    }
+
+    @Test
+    @WithMockUser
+    public void メッセージ画面表示２() throws Exception {
+
+		List<Message> Message = new ArrayList<>();
+
+    	Message message1 = new Message();
+    	Message message2 = new Message();
+
+        message1.setMatchingid(1);
+        message1.setWhospost(1);
+        message1.setNumber(1);
+        message1.setMessagecontent("はじめまして！");
+        message1.setSex(true);
+        message2.setMatchingid(1);
+        message2.setWhospost(4);
+        message2.setNumber(2);
+        message2.setMessagecontent("こちらこそ！");
+        message2.setSex(false);
+
+        Message.add(message1);
+        Message.add(message2);
+
+    	when(userService.CheckMatchingid()).thenReturn(1);
+    	when(userService.takeMessage(anyInt())).thenReturn(Message);
+    	when(userService.Hisname(anyInt(), anyString())).thenReturn("ボブ");
+
+        mockMvc.perform(get("/newmessage"))
+       .andExpect(status().isOk())
+       .andExpect(content().string(containsString("ボブ")))
+       .andExpect(content().string(containsString("はじめまして！")))
+       .andExpect(content().string(containsString("こちらこそ！")))
+       .andExpect(model().attribute("hisname", "ボブ"));
+    }
+
+    @Test
+    @WithMockUser
+    public void メッセージ記入() throws Exception {
+
+      MessageBox mb = new MessageBox();
+      mb.setNowwritten("テスト。");
+
+	List<Message> Message = new ArrayList<>();
+
+  	when(userService.CheckMatchingid()).thenReturn(1);
+	when(userService.takeMessage(anyInt())).thenReturn(Message);
+	when(userService.Hisname(anyInt(), anyString())).thenReturn("グレイ");
+
+      mockMvc.perform((post("/newmessage")).flashAttr("messageBox", mb))
+      .andExpect(model().hasNoErrors())
+      .andExpect(view().name("ok"));
+
+      verify(userService, times(1)).MessageWritten("テスト。");
     }
 }
