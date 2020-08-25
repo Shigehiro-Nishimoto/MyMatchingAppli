@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -16,13 +17,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org. springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.demo.login.domain.model.Message;
 import com.example.demo.login.domain.model.MessageBox;
+import com.example.demo.login.domain.model.SignupBox;
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.service.UserService;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -157,14 +161,52 @@ public class ControllerTest {
 
 	List<Message> Message = new ArrayList<>();
 
-  	when(userService.CheckMatchingid()).thenReturn(1);
 	when(userService.takeMessage(anyInt())).thenReturn(Message);
-	when(userService.Hisname(anyInt(), anyString())).thenReturn("グレイ");
 
-      mockMvc.perform((post("/newmessage")).flashAttr("messageBox", mb))
-      .andExpect(model().hasNoErrors())
-      .andExpect(view().name("ok"));
+      mockMvc.perform(post("/newmessage").flashAttr("messageBox", mb).with(SecurityMockMvcRequestPostProcessors.csrf()));
 
       verify(userService, times(1)).MessageWritten("テスト。");
+    }
+
+    @Test
+    @WithMockUser
+    public void 登録画面() throws Exception {
+
+    	Date date = new Date();
+
+        SignupBox sb = new SignupBox();
+        sb.setName("グレイ");
+        sb.setSex(true);
+        sb.setBirthday(date);
+        sb.setMailaddress("gray@yahoo.co.jp");
+        sb.setPassword("gggg");
+
+        User user = new User();
+
+        user.setId(1);
+        user.setName("グレイ");
+        user.setSex(true);
+        user.setBirthday(date);
+        user.setMailaddress("gray@yahoo.co.jp");
+        user.setPassword("gggg");
+        user.setAge(1);
+        user.setMatchingid(1);
+        user.setState(1);
+        user.setGaitousuruka(true);
+        user.setRole("ROLE_GENERAL");
+
+      mockMvc.perform(post("/signup").flashAttr("signupBox", sb).with(SecurityMockMvcRequestPostProcessors.csrf()));
+
+      verify(userService, times(1)).insert(user);
+    }
+    
+    @Test
+    @DatabaseSetup(value = "/controller/top/setUp/")
+    void ログイン() throws Exception {
+    	this.mockMvc.perform(formLogin("/login")
+                .user("micheal@yahoo.co.jp")
+                .password("password"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/home"));
     }
 }
