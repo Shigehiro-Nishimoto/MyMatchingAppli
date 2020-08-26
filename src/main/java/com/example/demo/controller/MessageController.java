@@ -89,7 +89,7 @@ public class MessageController extends HttpServlet {
 	}
 
 	 @PostMapping("/newmessage")
-	    public String postSignUp(@ModelAttribute  @Validated MessageBox form, BindingResult bindingResult, Model model) {
+	    public String NewMessage(@ModelAttribute  @Validated MessageBox form, BindingResult bindingResult, Model model) {
 	        if (bindingResult.hasErrors()) {
 	        System.out.println("入力チェックにひっかかりました。");
 	        return getMessage(model);

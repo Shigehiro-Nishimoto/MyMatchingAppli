@@ -9,8 +9,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</head>
 		<body class="text-center">
 		<h1>マッチングアプリ</h1>
-		<form method="post" action="/login">
 
+		<form method="post" action="/login">
 		<p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} !=null"
 		th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"class="text-danger">
 		ログインエラーメッセージ</p>
@@ -27,6 +27,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<button class="btn btn-primary"
 		type="submit">ログインする</button>
 		</form>
+
 		<br>
 		<a th:href="@{'signup'}">新規登録はこちら</a>
 	</body>

@@ -3,6 +3,7 @@ package com.example.demo;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -199,14 +200,21 @@ public class ControllerTest {
 
       verify(userService, times(1)).insert(user);
     }
-    
+
     @Test
     @DatabaseSetup(value = "/controller/top/setUp/")
-    void ログイン() throws Exception {
-    	this.mockMvc.perform(formLogin("/login")
+    public void ログインテスト() throws Exception {
+        this.mockMvc.perform(formLogin("/login")
                 .user("micheal@yahoo.co.jp")
                 .password("password"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/home"));
+    }
+
+    @Test
+    @WithMockUser(username="micheal@yahoo.co.jp")
+    public void いいねした() throws Exception {
+      mockMvc.perform(get("/iineshita/2").with(SecurityMockMvcRequestPostProcessors.csrf()));
+      verify(userService, times(1)).Iineshita(2, "micheal@yahoo.co.jp");
     }
 }
