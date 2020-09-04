@@ -234,4 +234,22 @@ public class DaoTest {
     public void Hisname() {
         assertEquals(dao.Hisname(1, "micheal@yahoo.co.jp"), "メイシー");
     }
+
+    //異常系追加
+    @Test
+    @Sql("/daotest2.sql")
+    public void calAge2() {
+        assertEquals(dao.calcAge("1@yahoo.co.jp"), 27);
+        assertEquals(dao.calcAge("2@yahoo.co.jp"), 27);
+        assertEquals(dao.calcAge("3@yahoo.co.jp"), 27);
+        assertEquals(dao.calcAge("4@yahoo.co.jp"), 27);
+        assertEquals(dao.calcAge("5@yahoo.co.jp"), 27);
+        assertEquals(dao.calcAge("6@yahoo.co.jp"), 27);
+        assertEquals(dao.calcAge("7@yahoo.co.jp"), 27);
+        assertEquals(dao.calcAge("8@yahoo.co.jp"), 27);
+        assertEquals(dao.calcAge("9@yahoo.co.jp"), 27);
+        assertEquals(dao.calcAge("10@yahoo.co.jp"), 26);
+        assertEquals(dao.calcAge("11@yahoo.co.jp"), 26);
+        assertEquals(dao.calcAge("12@yahoo.co.jp"), 26);
+    }
 }

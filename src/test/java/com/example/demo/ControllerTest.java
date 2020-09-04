@@ -215,4 +215,28 @@ public class ControllerTest {
       mockMvc.perform(get("/iineshita/2").with(SecurityMockMvcRequestPostProcessors.csrf()));
       verify(userService, times(1)).Iineshita(2, "micheal@yahoo.co.jp");
     }
+    
+    //異常系追加
+    @Test
+    @WithMockUser(username="micheal@yahoo.co.jp")
+    public void いいねした２() throws Exception {
+      mockMvc.perform(get("/iineshita/10").with(SecurityMockMvcRequestPostProcessors.csrf()));
+      verify(userService, times(1)).Iineshita(10, "micheal@yahoo.co.jp");
+    }
+    
+    //異常系追加
+    @Test
+    @WithMockUser(username="micheal@yahoo.co.jp")
+    public void いいねした３() throws Exception {
+      mockMvc.perform(get("/iineshita/-1").with(SecurityMockMvcRequestPostProcessors.csrf()));
+      verify(userService, times(1)).Iineshita(-1, "micheal@yahoo.co.jp");
+    }
+    
+    //異常系追加
+    @Test
+    @WithMockUser(username="micheal@yahoo.co.jp")
+    public void 存在しないＵＲＬ() throws Exception {
+        mockMvc.perform(get("/a"))
+                .andExpect(content().string(containsString("404エラー")));
+    }
 }
