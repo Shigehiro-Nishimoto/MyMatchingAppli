@@ -58,4 +58,13 @@ public class HomeController {
     int kakikaeta = userService.Iineshita(matchingid, mailaddressnow);
 	return "redirect:/home";
 	}
+	
+	@GetMapping("/iineshitakaijo/{id}")
+	public String Iineshitakaijo(@ModelAttribute User form, Model model, @PathVariable("id") int matchingid) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String mailaddressnow = auth.getName();
+
+    int kakikaeta = userService.Iineshitakaijo(matchingid, mailaddressnow);
+	return "redirect:/home";
+	}
 }

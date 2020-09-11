@@ -162,12 +162,19 @@ public class UserService {
 	public int Iineshita(int matchingid, String mailaddress) {
 		Map<String, Object> sexandid = dao.Roguinshanoidtoseibetsu(mailaddress);
 		boolean c = (Boolean)sexandid.get("sex");
-		int kakikaeta = dao.Iineshita(matchingid, c);
-	return kakikaeta;
+		return dao.Iineshita(matchingid, c);
+	}
+	
+	public int Iineshitakaijo(int matchingid, String mailaddress) {
+	return dao.Iineshitakaijo(matchingid);
 	}
 
 	public String Hisname(int matchingid, String mailaddressnow) {
 	String hisname = dao.Hisname(matchingid, mailaddressnow);
 	return hisname;
+	}
+	
+	public int Sakujo(int matchingid, int number) {
+	return dao.Sakujo(matchingid, number);
 	}
 }

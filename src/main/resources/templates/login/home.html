@@ -20,6 +20,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 		<th class="info col-sm-2">年齢</th>
 		<th class="info col-sm-2">状態</th>
 		<th class="info col-sm-2">いいねボタン</th>
+		<th class="info col-sm-2">いいね解除ボタン</th>
 		</tr>
 		<tr th:each="user : ${userList}">
 		<td th:text="${user.name} + 'さん'"></td>
@@ -35,7 +36,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 		相手のみいいねしています。
 		</span>
 		</td>
-
 		<td>
 		<span th:if="${user.shukantekistate == 0}">
 			<a class="btn btn-primary" type="submit" th:href="@{'/iineshita/' + ${user.matchingid}}">
@@ -45,6 +45,13 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 		<span th:if="${user.shukantekistate == 2}">
 			<a class="btn btn-primary"  type="submit" th:href="@{'/iineshita/' + ${user.matchingid}}">
 			いいねする
+			</a>
+		</span>
+		</td>
+		<td>
+		<span th:if="${user.shukantekistate == 1}">
+			<a class="btn btn-primary"  type="submit" th:href="@{'/iineshitakaijo/' + ${user.matchingid}}">
+			いいね解除する
 			</a>
 		</span>
 		</td>

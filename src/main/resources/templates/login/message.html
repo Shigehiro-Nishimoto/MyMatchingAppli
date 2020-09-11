@@ -16,6 +16,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 	<table class="table table-bordered">
 		<tr>
 			<th class="bg-dark"><p class="text-center">内容（男性がブルー、女性がピンクです。）</p></th>
+			<th class="bg-dark"><p class="text-center">削除ボタン</p></th>
 		</tr>
 		<tr th:each="message : ${messagetoShow}">
 			<span th:if="${message.sex == true}">
@@ -24,6 +25,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 			<span th:if="${message.sex == false}">
 			<td th:text="${message.messagecontent}" class="bg-danger"></td>
 			</span>
+			<td>
+			<span th:if="${message.meornot == true}">
+			<a class="btn btn-primary" type="submit" th:href="@{'/sakujo/' + ${message.number}}">
+			削除する
+			</a>
+			</span>
+			</td>
 		</tr>
 	</table>
 	</div>

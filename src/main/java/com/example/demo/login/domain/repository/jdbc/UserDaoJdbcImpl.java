@@ -9,6 +9,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -115,6 +117,17 @@ PasswordEncoder passwordEncoder;
 			onemessage.setWhospost((Integer)map.get("whospost"));
 			onemessage.setNumber((Integer)map.get("number"));
 			onemessage.setMessagecontent((String)map.get("messagecontent"));
+			
+	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	        String mailaddressnow = auth.getName();
+			int myid = whosloggingin(mailaddressnow);
+			boolean meornot = true;
+			if(myid == (Integer)map.get("whospost")) {
+				meornot =  true;
+			}else {
+				meornot =  false;
+			}
+			onemessage.setMeornot(meornot);
 			int whospost = (Integer)map.get("whospost");
 			Map<String, Object> sex = jdbc.queryForMap("SELECT sex FROM members WHERE id = ?", whospost);
 			onemessage.setSex((Boolean)sex.get("sex"));
@@ -141,8 +154,7 @@ PasswordEncoder passwordEncoder;
 
 	public int whosloggingin(String mailaddress) {
 	Map<String, Object> map = jdbc.queryForMap("SELECT id FROM members WHERE mailaddress = ?", mailaddress);
-	int a = (Integer)map.get("id");
-	return a;
+	return (Integer)map.get("id");
 	}
 
 	public int seebiggestnumber(int matchingid) {
@@ -206,5 +218,17 @@ PasswordEncoder passwordEncoder;
     	Map<String, Object> name = jdbc.queryForMap("SELECT name FROM members WHERE id = ?", id);
     	String hisname = (String)name.get("name");
     	return hisname;
+	}
+
+	public int Sakujo(int matchingid, int number) {
+	return jdbc.update("DELETE message WHERE matchingid = ? AND number = ?", matchingid, number);
+	}
+	
+	public int Iineshitakaijo(int matchingid) {
+
+		Map<String, Object> map = jdbc.queryForMap("SELECT state FROM matchings WHERE matchingid = ?", matchingid);
+		int kakikaeta = 0;
+		kakikaeta = jdbc.update("UPDATE matchings SET state = 0 WHERE matchingid = ?", matchingid);
+		return kakikaeta;
 	}
 }

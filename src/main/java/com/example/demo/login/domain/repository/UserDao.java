@@ -41,4 +41,8 @@ public int Iineshita(int matchingid, boolean sex);
 public Map<String, Object> Roguinshanoidtoseibetsu(String mailaddress);
 
 public String Hisname(int matchingid, String mailaddressnow);
+
+public int Sakujo(int matchingid, int number);
+
+public int Iineshitakaijo(int matchingid);
 }

@@ -10,5 +10,6 @@ public int matchingid;
 public int whospost;
 public int number;
 public String messagecontent;
+public boolean meornot;
 
 }

@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.login.domain.model.Message;
@@ -36,7 +37,8 @@ public class MessageController extends HttpServlet {
 	@Autowired
 	JdbcTemplate jdbc;
 
-	public String getMessage(Model model) {
+	@GetMapping("/message")
+	public String getMessage(@ModelAttribute MessageBox form, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String mailaddressnow = auth.getName();
     	int matchingid = userService.CheckMatchingid();
@@ -45,6 +47,7 @@ public class MessageController extends HttpServlet {
     	model.addAttribute("messagetoShow", messagetoShow);
     	String hisname = userService.Hisname(matchingid, mailaddressnow);
     	model.addAttribute("hisname", hisname);
+        System.out.println("kita");
     	return "login/message";
 	}
 
@@ -54,7 +57,6 @@ public class MessageController extends HttpServlet {
 		int matchingid = userService.CheckMatchingid();
 		List<Message> messagetoShow = userService.takeMessage(matchingid);
 		model.addAttribute("messagetoShow", messagetoShow);
-
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    String mailaddressnow = auth.getName();
 		String hisname = userService.Hisname(matchingid, mailaddressnow);
@@ -92,7 +94,7 @@ public class MessageController extends HttpServlet {
 	    public String NewMessage(@ModelAttribute  @Validated MessageBox form, BindingResult bindingResult, Model model) {
 	        if (bindingResult.hasErrors()) {
 	        System.out.println("入力チェックにひっかかりました。");
-	        return getMessage(model);
+	        return getMessage(form, model);
 	        }
 
 	        String written = form.getNowwritten();
@@ -130,4 +132,11 @@ public class MessageController extends HttpServlet {
 	        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
 	        return "error";
 	    }
+
+		@GetMapping("/sakujo/{id}")
+		public String Sakujoshita(@PathVariable("id") int number) {
+			int matchingid = userService.CheckMatchingid();
+			userService.Sakujo(matchingid, number);
+			return  "redirect:/message";
+		}
 }
