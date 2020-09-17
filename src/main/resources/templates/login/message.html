@@ -5,12 +5,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 		<meta charset="UTF-8">
 		<link th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet">
 		<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+
 		<title>メッセージ画面</title>
 	</head>
 		<body class="text-center">
 		<h1>メッセージ画面</h1><br>
 
 <font size="3" color="blue"><span th:text="${hisname}"></span>さんとのメッセージ画面です。</font><br>
+
 
 	<div th:fragment="messagetoShow_contents">
 	<table class="table table-bordered">
@@ -20,10 +22,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 		</tr>
 		<tr th:each="message : ${messagetoShow}">
 			<span th:if="${message.sex == true}">
-			<td th:text="${message.messagecontent}" class="bg-info"></td>
+			<td th:utext="${message.messagecontent}" class="bg-info"></td>
 			</span>
 			<span th:if="${message.sex == false}">
-			<td th:text="${message.messagecontent}" class="bg-danger"></td>
+			<td th:utext="${message.messagecontent}" class="bg-danger"></td>
 			</span>
 			<td>
 			<span th:if="${message.meornot == true}">
@@ -32,9 +34,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 			</a>
 			</span>
 			</td>
+		</div>
 		</tr>
 	</table>
 	</div>
+
 
 		<!-- メッセージ入力欄 -->
        <form method="post" th:action="@{/newmessage}" th:object="${messageBox}">
@@ -43,7 +47,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
                     <th class="active col-sm-3"><p class="text-center">入力欄</p></th>
                     <td>
                         <div class="form-group" th:classappend="${#fields.hasErrors('nowwritten')} ? 'has-error'">
-                            <input type="text" class="form-control" th:field="*{nowwritten}" />
+                        <textarea name="example" rows="4" cols="40" class="form-control" th:field="*{nowwritten}"></textarea>
+
                             <span class="text-danger" th:if="${#fields.hasErrors('nowwritten')}"
                                 th:errors="*{nowwritten}"> error </span>
                         </div>
@@ -57,7 +62,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
             </ul>
             <button class="btn btn-primary" type="submit">メッセージ入力</button>
         </form>
-
 
 			<form method="get" th:action="@{/messagetomatching}">
 				<button class="btn-link" type="submit">マッチング画面にいく</button>

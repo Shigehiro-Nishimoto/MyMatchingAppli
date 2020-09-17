@@ -116,7 +116,11 @@ PasswordEncoder passwordEncoder;
 			onemessage.setMatchingid((Integer)map.get("matchingid"));
 			onemessage.setWhospost((Integer)map.get("whospost"));
 			onemessage.setNumber((Integer)map.get("number"));
-			onemessage.setMessagecontent((String)map.get("messagecontent"));
+			
+			String str = (String)map.get("messagecontent");
+			str = str.replaceAll("(\r\n|\n)", "<br>");
+			
+			onemessage.setMessagecontent(str);
 			
 	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	        String mailaddressnow = auth.getName();
@@ -139,6 +143,7 @@ PasswordEncoder passwordEncoder;
 		int matchingaitekakikomi = jdbc.update("INSERT INTO matchingaite(matchingid) VALUES(?)", matchingid);
 		}else {
 		}
+		System.out.println(Message);
 		return Message;
 		}
 
