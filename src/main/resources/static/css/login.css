@@ -49,3 +49,7 @@ columns:250px auto;
   background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85188/bg-red.jpg);
   padding: 70px 0;
 }
+
+table, tr, td {
+   border: 1px soild #777;
+}

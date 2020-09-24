@@ -45,4 +45,18 @@ public String Hisname(int matchingid, String mailaddressnow);
 public int Sakujo(int matchingid, int number);
 
 public int Iineshitakaijo(int matchingid);
+
+public String gaitounomesse(int matchingid, int number);
+
+public boolean shuuseichuunanoka();
+
+public int shuuseichuunisuru(int matchingid, int number);
+
+public void shuuseichuuwoyameru();
+
+public int shuusei(String written);
+
+public int shuuseichuunumber();
+
+public int mintomaxwokaku(int min, int max);
 }

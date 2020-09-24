@@ -47,7 +47,21 @@ public class MessageController extends HttpServlet {
     	model.addAttribute("messagetoShow", messagetoShow);
     	String hisname = userService.Hisname(matchingid, mailaddressnow);
     	model.addAttribute("hisname", hisname);
-        System.out.println("kita");
+    	boolean shu = userService.shuuseichuunanoka();
+    	model.addAttribute("shuuseichuunanoka", shu);
+
+    	if(shu == true) {
+    	MessageBox messe = new MessageBox();
+    	int number = userService.shuuseichuunumber();
+    	String shuuseisarerumesse = userService.gaitounomesse(matchingid, number);
+    	messe.setNowwritten(shuuseisarerumesse);
+    	model.addAttribute("messageBox", messe);
+    	}else {
+        MessageBox messe = new MessageBox();
+        messe.setNowwritten("");
+        model.addAttribute("messageBox", messe);
+    	}
+
     	return "login/message";
 	}
 
@@ -61,6 +75,19 @@ public class MessageController extends HttpServlet {
 	    String mailaddressnow = auth.getName();
 		String hisname = userService.Hisname(matchingid, mailaddressnow);
 		model.addAttribute("hisname", hisname);
+    	boolean shu = userService.shuuseichuunanoka();
+    	model.addAttribute("shuuseichuunanoka", shu);
+    	if(shu == true) {
+    	MessageBox messe = new MessageBox();
+    	int number = userService.shuuseichuunumber();
+    	String shuuseisarerumesse = userService.gaitounomesse(matchingid, number);
+    	messe.setNowwritten(shuuseisarerumesse);
+    	model.addAttribute("messageBox", messe);
+    	}else {
+            MessageBox messe = new MessageBox();
+            messe.setNowwritten("");
+            model.addAttribute("messageBox", messe);
+        	}
 		return "login/message";
 	}
 
@@ -75,6 +102,19 @@ public class MessageController extends HttpServlet {
 	    String mailaddressnow = auth.getName();
 		String hisname = userService.Hisname(matchingid, mailaddressnow);
 		model.addAttribute("hisname", hisname);
+    	boolean shu = userService.shuuseichuunanoka();
+    	model.addAttribute("shuuseichuunanoka", shu);
+    	if(shu == true) {
+    	MessageBox messe = new MessageBox();
+    	int number = userService.shuuseichuunumber();
+    	String shuuseisarerumesse = userService.gaitounomesse(matchingid, number);
+    	messe.setNowwritten(shuuseisarerumesse);
+    	model.addAttribute("messageBox", messe);
+    	}else {
+            MessageBox messe = new MessageBox();
+            messe.setNowwritten("");
+            model.addAttribute("messageBox", messe);
+        	}
 		return "login/message";
 	}
 
@@ -86,21 +126,28 @@ public class MessageController extends HttpServlet {
     String mailaddressnow = auth.getName();
 	List<User> userList = userService.selectAftermatching(mailaddressnow);
 	model.addAttribute("userList", userList);
+	userService.shuuseichuuwoyameru();
 	userService.LeaveMessageGamen();
 	return "login/matching";
 	}
 
+	//■■書き込みがなされた時のルート■■
 	 @PostMapping("/newmessage")
 	    public String NewMessage(@ModelAttribute  @Validated MessageBox form, BindingResult bindingResult, Model model) {
 	        if (bindingResult.hasErrors()) {
 	        System.out.println("入力チェックにひっかかりました。");
 	        return getMessage(form, model);
 	        }
-
 	        String written = form.getNowwritten();
-
-	        int result = userService.MessageWritten(written);
-
+	        int result = 0;
+	        
+	        if(userService.shuuseichuunanoka() == true) {
+	        	result = userService.shuusei(written);
+	        	userService.shuuseichuuwoyameru();
+	        }else {
+	        	result = userService.MessageWritten(written);
+	 		}
+	        
 	        if (result > 0) {
 	            System.out.println("書き込み成功");
 	        } else {
@@ -114,6 +161,19 @@ public class MessageController extends HttpServlet {
 	        String mailaddressnow = auth.getName();
 	    	String hisname = userService.Hisname(matchingid, mailaddressnow);
 	    	model.addAttribute("hisname", hisname);
+	    	boolean shu = userService.shuuseichuunanoka();
+	    	model.addAttribute("shuuseichuunanoka", shu);
+	       	if(shu == true) {
+	        	MessageBox messe = new MessageBox();
+	        	int number = userService.shuuseichuunumber();
+	        	String shuuseisarerumesse = userService.gaitounomesse(matchingid, number);
+	        	messe.setNowwritten(shuuseisarerumesse);
+	        	model.addAttribute("messageBox", messe);
+	        	}else {
+	                MessageBox messe = new MessageBox();
+	                messe.setNowwritten("");
+	                model.addAttribute("messageBox", messe);
+	            	}
 	    	return "login/message";
 	    }
 
@@ -138,5 +198,12 @@ public class MessageController extends HttpServlet {
 			int matchingid = userService.CheckMatchingid();
 			userService.Sakujo(matchingid, number);
 			return  "redirect:/message";
+		}
+		
+		@GetMapping("/shuusei/{id}")
+		public String Shuuseishita(@PathVariable("id") int number) {
+			int matchingid = userService.CheckMatchingid();
+	    	userService.shuuseichuunisuru(matchingid, number);
+	    	return "redirect:/message";
 		}
 }

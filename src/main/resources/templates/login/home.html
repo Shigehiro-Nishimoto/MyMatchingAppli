@@ -13,6 +13,12 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <font size="3" color="blue"><span th:text="${thename}"></span>さん（<span th:text="${theage}"></span>歳）こんにちは。</font><br>
 <font size="3" color="blue">気になる方に「いいね」してみましょう。</font><br>
 
+年齢による絞り込み<br>
+<form method="post" th:action="@{/shiborichi}" th:object="${shiborichiBox}">
+<input type="text" th:field="*{min}">歳から、<input type="text" th:field="*{max}">歳まで。
+<button class="btn btn-warning" type="submit">絞り込む！</button>
+</form>
+
 		<div th:fragment="userList_contents">
 	<table class="table table-bordered table-hover table-striped">
 	<tr>
@@ -67,6 +73,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 		<form method="get" th:action="@{/hometomatching}">
 		<button class="btn-link" type="submit">マッチング画面にいく
+		</button>
+		</form>
+		
+		<form method="get" th:action="@{/hometoupload}">
+		<button class="btn-link" type="submit">画像アップロード画面にいく
 		</button>
 		</form>
 	</body>

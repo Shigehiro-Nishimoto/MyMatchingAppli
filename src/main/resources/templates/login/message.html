@@ -19,6 +19,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 		<tr>
 			<th class="bg-dark"><p class="text-center">内容（男性がブルー、女性がピンクです。）</p></th>
 			<th class="bg-dark"><p class="text-center">削除ボタン</p></th>
+			<th class="bg-dark"><p class="text-center">修正ボタン</p></th>
 		</tr>
 		<tr th:each="message : ${messagetoShow}">
 			<span th:if="${message.sex == true}">
@@ -34,11 +35,21 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 			</a>
 			</span>
 			</td>
+			<td>
+			<span th:if="${message.meornot == true}">
+			<a class="btn btn-primary" type="submit" th:href="@{'/shuusei/' + ${message.number}}">
+			修正する
+			</a>
+			</span>
+			</td>
 		</div>
 		</tr>
 	</table>
 	</div>
 
+			<span th:if="${shuuseichuunanoka == true}">
+			<Font size="4" color="green">■■■今は修正中■■■</Font><br>
+			</span>
 
 		<!-- メッセージ入力欄 -->
        <form method="post" th:action="@{/newmessage}" th:object="${messageBox}">
@@ -47,8 +58,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
                     <th class="active col-sm-3"><p class="text-center">入力欄</p></th>
                     <td>
                         <div class="form-group" th:classappend="${#fields.hasErrors('nowwritten')} ? 'has-error'">
-                        <textarea name="example" rows="4" cols="40" class="form-control" th:field="*{nowwritten}"></textarea>
-
+                        <textarea name="example" rows="4" cols="40" class="form-control" th:field="*{nowwritten}">
+                        </textarea>
                             <span class="text-danger" th:if="${#fields.hasErrors('nowwritten')}"
                                 th:errors="*{nowwritten}"> error </span>
                         </div>
@@ -60,8 +71,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
                     <span th:text="${error.message}">Error message</span>
                 </li>
             </ul>
-            <button class="btn btn-primary" type="submit">メッセージ入力</button>
+            
+            <span th:if="${shuuseichuunanoka == false}"><button class="btn btn-primary" type="submit">メッセージ入力</button></span>
+            <span th:if="${shuuseichuunanoka == true}"><button class="btn btn-warning" type="submit">メッセージ修正</button></span>
+            
         </form>
+        <!-- メッセージ入力欄おわり -->
 
 			<form method="get" th:action="@{/messagetomatching}">
 				<button class="btn-link" type="submit">マッチング画面にいく</button>

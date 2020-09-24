@@ -54,3 +54,9 @@ VALUES(1, 1, 1, 'はじめまして！');
 
 INSERT INTO message (matchingid, whospost, number, messagecontent)
 VALUES(1, 4, 2, 'こちらこそ！');
+
+INSERT INTO shuuseichuunanoka (shuuseichuunanoka, matchingid, number)
+VALUES(false, 0, 0);
+
+INSERT INTO shiborichi (min, max)
+VALUES(-1, 1000);

@@ -177,4 +177,37 @@ public class UserService {
 	public int Sakujo(int matchingid, int number) {
 	return dao.Sakujo(matchingid, number);
 	}
+	
+	public int Roguinshanoid(String mailaddress) {
+	Map<String, Object> sexandid = dao.Roguinshanoidtoseibetsu(mailaddress);
+	return (Integer)sexandid.get("id");
+	}
+	
+	public boolean shuuseichuunanoka() {
+		return dao.shuuseichuunanoka();
+	}
+	
+	public String gaitounomesse(int matchingid, int number) {
+		return dao.gaitounomesse(matchingid, number);
+	}
+	
+	public int shuuseichuunisuru(int matchingid, int number) {
+		return dao.shuuseichuunisuru(matchingid, number);
+	}
+	
+	public void shuuseichuuwoyameru() {
+		dao.shuuseichuuwoyameru();
+	}
+	
+	public int shuusei(String written) {
+		return dao.shuusei(written);
+	}
+	
+	public int shuuseichuunumber() {
+		return dao.shuuseichuunumber();
+	}
+	
+	public int mintomaxwokaku(int min, int max) {
+		return dao.mintomaxwokaku(min, max);
+	}
 }

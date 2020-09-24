@@ -64,6 +64,9 @@ PasswordEncoder passwordEncoder;
 	//●●マッチング表のデータを全て取得するメソッド●●
 	@Override
 	public List<Map<String, Object>> getallfromMatching() throws DataAccessException {
+    	Map<String, Object> mintomax = jdbc.queryForMap("SELECT min, max FROM shiborichi");
+		int min = (Integer)mintomax.get("min");
+		int max = (Integer)mintomax.get("max");
 		List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM matchings");
 		return getList;
 		}
@@ -109,7 +112,7 @@ PasswordEncoder passwordEncoder;
 	//●●マッチングＩＤを引数に、該当するメッセージの記録をMessage型で返すメソッド●●
 	@Override
 	public List<Message> takeMessage(int matchingid) throws DataAccessException {
-		List<Map<String, Object>> getMessage = jdbc.queryForList("SELECT * FROM message WHERE matchingid = ?", matchingid);
+		List<Map<String, Object>> getMessage = jdbc.queryForList("SELECT * FROM message WHERE matchingid = ? ORDER BY number", matchingid);
 		List<Message> Message = new ArrayList<>();
 		for(Map<String, Object> map:getMessage) {
 			Message onemessage = new Message();
@@ -235,5 +238,44 @@ PasswordEncoder passwordEncoder;
 		int kakikaeta = 0;
 		kakikaeta = jdbc.update("UPDATE matchings SET state = 0 WHERE matchingid = ?", matchingid);
 		return kakikaeta;
+	}
+	
+	public String gaitounomesse(int matchingid, int number) {
+	Map<String, Object> map = jdbc.queryForMap("SELECT messagecontent FROM message WHERE matchingid = ? AND number = ?", matchingid, number);
+	return (String)map.get("messagecontent");
+	}
+	
+	public boolean shuuseichuunanoka() {
+	Map<String, Object> map = jdbc.queryForMap("SELECT shuuseichuunanoka FROM shuuseichuunanoka");
+	return (boolean)map.get("shuuseichuunanoka");
+	}
+	
+	public int shuuseichuunisuru(int matchingid, int number) {
+	jdbc.update("UPDATE shuuseichuunanoka SET shuuseichuunanoka = true");
+	jdbc.update("UPDATE shuuseichuunanoka SET matchingid = ?", matchingid);
+	jdbc.update("UPDATE shuuseichuunanoka SET number = ?", number);
+	return 0;
+	}
+	
+	public void shuuseichuuwoyameru() {
+	jdbc.update("UPDATE shuuseichuunanoka SET shuuseichuunanoka = false");
+	jdbc.update("UPDATE shuuseichuunanoka SET matchingid = ?", 0);
+	jdbc.update("UPDATE shuuseichuunanoka SET number = ?", 0);
+	}
+	
+	public int shuusei(String written) {
+	Map<String, Object> map = jdbc.queryForMap("SELECT matchingid, number FROM shuuseichuunanoka");
+	int matchingid = (Integer)map.get("matchingid");
+	int number = (Integer)map.get("number");
+	return jdbc.update("UPDATE message SET messagecontent = ? WHERE matchingid = ? AND number = ?", written, matchingid, number);
+	}
+	
+	public int shuuseichuunumber() {
+		Map<String, Object> map = jdbc.queryForMap("SELECT number FROM shuuseichuunanoka");
+		return (Integer)map.get("number");
+	}
+	
+	public int mintomaxwokaku(int min, int max) {
+		return jdbc.update("UPDATE shiborichi SET min = ?, max = ?", min, max);
 	}
 }

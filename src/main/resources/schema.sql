@@ -33,3 +33,18 @@ messagecontent VARCHAR(100)
 CREATE TABLE IF NOT EXISTS matchingaite(
 matchingid INT
 );
+
+/*シュウセイチュウナノカ*/
+
+CREATE TABLE IF NOT EXISTS shuuseichuunanoka(
+shuuseichuunanoka boolean,
+matchingid int,
+number int
+);
+
+/*シュウセイチュウナノカ*/
+
+CREATE TABLE IF NOT EXISTS shiborichi(
+min int,
+max int
+);
