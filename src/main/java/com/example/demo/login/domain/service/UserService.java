@@ -183,28 +183,12 @@ public class UserService {
 	return (Integer)sexandid.get("id");
 	}
 	
-	public boolean shuuseichuunanoka() {
-		return dao.shuuseichuunanoka();
-	}
-	
 	public String gaitounomesse(int matchingid, int number) {
 		return dao.gaitounomesse(matchingid, number);
 	}
 	
-	public int shuuseichuunisuru(int matchingid, int number) {
-		return dao.shuuseichuunisuru(matchingid, number);
-	}
-	
-	public void shuuseichuuwoyameru() {
-		dao.shuuseichuuwoyameru();
-	}
-	
-	public int shuusei(String written) {
-		return dao.shuusei(written);
-	}
-	
-	public int shuuseichuunumber() {
-		return dao.shuuseichuunumber();
+	public int shuusei(String written, int number) {
+		return dao.shuusei(written, number);
 	}
 	
 	public int mintomaxwokaku(int min, int max) {

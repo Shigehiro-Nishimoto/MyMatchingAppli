@@ -46,8 +46,7 @@ public class MatchingController {
     String mailaddressnow = auth.getName();
 	String hisname = userService.Hisname(matchingid, mailaddressnow);
 	model.addAttribute("hisname", hisname);
-	boolean shu = userService.shuuseichuunanoka();
-	model.addAttribute("shuuseichuunanoka", shu);
+	model.addAttribute("shuuseichuunanokana", false);
 	return "login/message";
 	}
 }

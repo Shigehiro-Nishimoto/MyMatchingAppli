@@ -34,15 +34,7 @@ CREATE TABLE IF NOT EXISTS matchingaite(
 matchingid INT
 );
 
-/*シュウセイチュウナノカ*/
-
-CREATE TABLE IF NOT EXISTS shuuseichuunanoka(
-shuuseichuunanoka boolean,
-matchingid int,
-number int
-);
-
-/*シュウセイチュウナノカ*/
+/*ネンレイシボリコミ*/
 
 CREATE TABLE IF NOT EXISTS shiborichi(
 min int,

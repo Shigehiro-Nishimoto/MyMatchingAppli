@@ -61,13 +61,34 @@ PasswordEncoder passwordEncoder;
 	    return rowNumber;
 	}
 
-	//●●マッチング表のデータを全て取得するメソッド●●
+	//●●マッチング表のデータを全て取得するメソッド●●（年齢による絞り込みを毎回行う）
 	@Override
 	public List<Map<String, Object>> getallfromMatching() throws DataAccessException {
     	Map<String, Object> mintomax = jdbc.queryForMap("SELECT min, max FROM shiborichi");
 		int min = (Integer)mintomax.get("min");
 		int max = (Integer)mintomax.get("max");
-		List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM matchings");
+        Calendar mincalender = Calendar.getInstance();
+        Calendar maxcalender = Calendar.getInstance();
+        mincalender.add(Calendar.YEAR, -min);
+        maxcalender.add(Calendar.YEAR, -max);
+        Date min1 = mincalender.getTime();
+        Date max1 = maxcalender.getTime();
+        
+        System.out.println(min1);
+        System.out.println(max1);
+		
+        //ログイン者の性別を知る。
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String mailaddress = auth.getName();
+    	Map<String, Object> sexmap = jdbc.queryForMap("SELECT sex FROM members WHERE mailaddress = ?", mailaddress);
+    	boolean sex = (boolean)sexmap.get("sex");
+    	
+    	List<Map<String, Object>> getList = new ArrayList();
+    	if(sex == true) {
+		getList = jdbc.queryForList("SELECT * FROM matchings INNER JOIN members ON matchings.femaleid = members.id WHERE members.birthday > ? AND members.birthday < ?", max1, min1);
+    	}else {
+    	getList = jdbc.queryForList("SELECT * FROM matchings INNER JOIN members ON matchings.maleid = members.id WHERE members.birthday > ? AND members.birthday < ?", max1, min1);
+    	}
 		return getList;
 		}
 
@@ -96,15 +117,22 @@ PasswordEncoder passwordEncoder;
 	@Override
 	public int calcAge(String mailaddress) throws DataAccessException {
 		int age = 0;
+		
+		//Date型で誕生日を取得
 		Map<String, Object> map = jdbc.queryForMap("SELECT birthday FROM members WHERE mailaddress = ?", mailaddress);
 		Date birthdaynow = (Date)map.get("birthday");
+		
+		//Celender型に変換して、年にする
 		Calendar birthdaycalendar = Calendar.getInstance();
 		birthdaycalendar.setTime(birthdaynow);
 		int bornyear = birthdaycalendar.get(Calendar.YEAR);
+	    
+	    //現在時刻をCalender型で得て、今年（thisyear）を得ている。
 	    Date nowTime = new Date();
 	    Calendar nowtime = Calendar.getInstance();
 	    nowtime.setTime(nowTime);
 		int thisyear = nowtime.get(Calendar.YEAR);
+		
 		age = thisyear - bornyear;
 		return age;
 	}
@@ -244,35 +272,10 @@ PasswordEncoder passwordEncoder;
 	Map<String, Object> map = jdbc.queryForMap("SELECT messagecontent FROM message WHERE matchingid = ? AND number = ?", matchingid, number);
 	return (String)map.get("messagecontent");
 	}
-	
-	public boolean shuuseichuunanoka() {
-	Map<String, Object> map = jdbc.queryForMap("SELECT shuuseichuunanoka FROM shuuseichuunanoka");
-	return (boolean)map.get("shuuseichuunanoka");
-	}
-	
-	public int shuuseichuunisuru(int matchingid, int number) {
-	jdbc.update("UPDATE shuuseichuunanoka SET shuuseichuunanoka = true");
-	jdbc.update("UPDATE shuuseichuunanoka SET matchingid = ?", matchingid);
-	jdbc.update("UPDATE shuuseichuunanoka SET number = ?", number);
-	return 0;
-	}
-	
-	public void shuuseichuuwoyameru() {
-	jdbc.update("UPDATE shuuseichuunanoka SET shuuseichuunanoka = false");
-	jdbc.update("UPDATE shuuseichuunanoka SET matchingid = ?", 0);
-	jdbc.update("UPDATE shuuseichuunanoka SET number = ?", 0);
-	}
-	
-	public int shuusei(String written) {
-	Map<String, Object> map = jdbc.queryForMap("SELECT matchingid, number FROM shuuseichuunanoka");
-	int matchingid = (Integer)map.get("matchingid");
-	int number = (Integer)map.get("number");
+
+	public int shuusei(String written, int number) {
+	int matchingid = CheckMatchingid();
 	return jdbc.update("UPDATE message SET messagecontent = ? WHERE matchingid = ? AND number = ?", written, matchingid, number);
-	}
-	
-	public int shuuseichuunumber() {
-		Map<String, Object> map = jdbc.queryForMap("SELECT number FROM shuuseichuunanoka");
-		return (Integer)map.get("number");
 	}
 	
 	public int mintomaxwokaku(int min, int max) {

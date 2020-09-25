@@ -8,7 +8,7 @@ VALUES(2, 'ジョン', true, '1995-07-01', 'john@yahoo.co.jp', '$2a$10$xRTXvpMWl
 
 INSERT INTO members (id, name, sex, birthday, mailaddress, password, role)
 
-VALUES(3, 'ジョニー', true, '1998-07-15', 'jonny@yahoo.co.jp', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa', 'ROLE_GENERAL');
+VALUES(3, 'ジョニー', true, '1997-07-15', 'jonny@yahoo.co.jp', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa', 'ROLE_GENERAL');
 
 INSERT INTO members (id, name, sex, birthday, mailaddress, password, role)
 
@@ -54,9 +54,6 @@ VALUES(1, 1, 1, 'はじめまして！');
 
 INSERT INTO message (matchingid, whospost, number, messagecontent)
 VALUES(1, 4, 2, 'こちらこそ！');
-
-INSERT INTO shuuseichuunanoka (shuuseichuunanoka, matchingid, number)
-VALUES(false, 0, 0);
 
 INSERT INTO shiborichi (min, max)
 VALUES(-1, 1000);

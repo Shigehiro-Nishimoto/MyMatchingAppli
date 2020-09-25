@@ -3,8 +3,7 @@
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 	<head>
 		<meta charset="UTF-8">
-		<link th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet">
-		<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+		<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet">
 
 		<title>メッセージ画面</title>
 	</head>
@@ -12,7 +11,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 		<h1>メッセージ画面</h1><br>
 
 <font size="3" color="blue"><span th:text="${hisname}"></span>さんとのメッセージ画面です。</font><br>
-
 
 	<div th:fragment="messagetoShow_contents">
 	<table class="table table-bordered">
@@ -47,10 +45,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 	</table>
 	</div>
 
-			<span th:if="${shuuseichuunanoka == true}">
+			<span th:if="${shuuseichuunanokana == true}">
 			<Font size="4" color="green">■■■今は修正中■■■</Font><br>
 			</span>
 
+		<span th:if="${shuuseichuunanokana == false}">
 		<!-- メッセージ入力欄 -->
        <form method="post" th:action="@{/newmessage}" th:object="${messageBox}">
             <table class="table table-bordered table-hover">
@@ -71,11 +70,37 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
                     <span th:text="${error.message}">Error message</span>
                 </li>
             </ul>
-            
-            <span th:if="${shuuseichuunanoka == false}"><button class="btn btn-primary" type="submit">メッセージ入力</button></span>
-            <span th:if="${shuuseichuunanoka == true}"><button class="btn btn-warning" type="submit">メッセージ修正</button></span>
-            
+            <button class="btn btn-primary" type="submit">メッセージ入力</button>
         </form>
+        </span>
+        
+        
+        <span th:if="${shuuseichuunanokana == true}">
+		<!-- メッセージ入力欄 -->
+       <form method="post" th:action="@{'/shuuseisuru/' + ${number}}" th:object="${messageBox}">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th class="active col-sm-3"><p class="text-center">入力欄</p></th>
+                    <td>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('nowwritten')} ? 'has-error'">
+                        <textarea name="example" rows="4" cols="40" class="form-control" th:field="*{nowwritten}">
+                        </textarea>
+                            <span class="text-danger" th:if="${#fields.hasErrors('nowwritten')}"
+                                th:errors="*{nowwritten}"> error </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <ul>
+                <li th:each="error : ${#fields.detailedErrors()}">
+                    <span th:text="${error.message}">Error message</span>
+                </li>
+            </ul>
+            <button class="btn btn-warning" type="submit">メッセージ修正</button>
+        </form>
+        </span>
+        
+        
         <!-- メッセージ入力欄おわり -->
 
 			<form method="get" th:action="@{/messagetomatching}">

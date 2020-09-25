@@ -48,15 +48,7 @@ public int Iineshitakaijo(int matchingid);
 
 public String gaitounomesse(int matchingid, int number);
 
-public boolean shuuseichuunanoka();
-
-public int shuuseichuunisuru(int matchingid, int number);
-
-public void shuuseichuuwoyameru();
-
-public int shuusei(String written);
-
-public int shuuseichuunumber();
+public int shuusei(String written, int number);
 
 public int mintomaxwokaku(int min, int max);
 }
