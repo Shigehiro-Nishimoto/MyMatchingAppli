@@ -194,4 +194,8 @@ public class UserService {
 	public int mintomaxwokaku(int min, int max) {
 		return dao.mintomaxwokaku(min, max);
 	}
+		
+	public int matchingidshirabe() {
+		return dao.matchingidshirabe();
+	}
 }

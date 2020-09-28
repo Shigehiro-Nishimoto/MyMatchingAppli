@@ -281,4 +281,9 @@ PasswordEncoder passwordEncoder;
 	public int mintomaxwokaku(int min, int max) {
 		return jdbc.update("UPDATE shiborichi SET min = ?, max = ?", min, max);
 	}
+	
+	public int matchingidshirabe() {
+		Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
+		return (Integer)map.get("matchingid");
+	}
 }

@@ -11,6 +11,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  lang="ja">
 		<h1>メッセージ画面</h1><br>
 
 <font size="3" color="blue"><span th:text="${hisname}"></span>さんとのメッセージ画面です。</font><br>
+<span th:if="${shuuseichuunanokana == true}">
+<font size="3" color="blue"><span th:text="${number}"></span>つ目のメッセージを修正しています。</font><br>
+</span>
 
 	<div th:fragment="messagetoShow_contents">
 	<table class="table table-bordered">

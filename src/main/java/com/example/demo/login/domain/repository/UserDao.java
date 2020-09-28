@@ -51,4 +51,6 @@ public String gaitounomesse(int matchingid, int number);
 public int shuusei(String written, int number);
 
 public int mintomaxwokaku(int min, int max);
+
+public int matchingidshirabe();
 }

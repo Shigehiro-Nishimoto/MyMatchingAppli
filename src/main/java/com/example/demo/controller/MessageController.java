@@ -47,6 +47,10 @@ public class MessageController extends HttpServlet {
     	model.addAttribute("messagetoShow", messagetoShow);
     	String hisname = userService.Hisname(matchingid, mailaddressnow);
     	model.addAttribute("hisname", hisname);
+        model.addAttribute("shuuseichuunanokana", false);
+        MessageBox messe = new MessageBox();
+        messe.setNowwritten("");
+        model.addAttribute("messageBox", messe);
     	return "login/message";
 	}
 
@@ -153,10 +157,26 @@ public class MessageController extends HttpServlet {
 		public String Shuuseishita(@PathVariable("id") int number, @ModelAttribute MessageBox form, Model model) {
 	    	model.addAttribute("shuuseichuunanokana", true);
 	    	model.addAttribute("number", number);
-	    	return "forward:/message";
+	    	
+	    	int matchingid = userService.matchingidshirabe();
+	        String gaitounomesse = userService.gaitounomesse(matchingid, number);
+	        MessageBox messe = new MessageBox();
+	        messe.setNowwritten(gaitounomesse);
+	        System.out.println(messe);
+	        model.addAttribute("messageBox", messe);
+
+	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	        String mailaddressnow = auth.getName();
+	    	model.addAttribute("contents", "login/message :: messagetoShow_contents");
+	    	List<Message> messagetoShow = userService.takeMessage(matchingid);
+	    	model.addAttribute("messagetoShow", messagetoShow);
+	    	String hisname = userService.Hisname(matchingid, mailaddressnow);
+	    	model.addAttribute("hisname", hisname);
+	    	
+	    	return "login/message";
 		}
 		
-		//■■書き込みがなされた時のルート■■
+		//■■修正がなされた時のルート■■
 		 @PostMapping("/shuuseisuru/{id}")
 		    public String Shuusei(@PathVariable("id") int number, @ModelAttribute  @Validated MessageBox form, BindingResult bindingResult, Model model) {
 		        if (bindingResult.hasErrors()) {
@@ -175,10 +195,10 @@ public class MessageController extends HttpServlet {
 		        String mailaddressnow = auth.getName();
 		    	String hisname = userService.Hisname(matchingid, mailaddressnow);
 		    	model.addAttribute("hisname", hisname);
+		        model.addAttribute("shuuseichuunanokana", false);
 		        MessageBox messe = new MessageBox();
 		        messe.setNowwritten("");
 		        model.addAttribute("messageBox", messe);
-		        model.addAttribute("shuuseichuunanokana", false);
 		    	return "login/message";
 		    }
 }
