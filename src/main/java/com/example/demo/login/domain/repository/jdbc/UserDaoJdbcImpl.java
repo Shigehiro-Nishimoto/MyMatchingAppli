@@ -286,4 +286,8 @@ PasswordEncoder passwordEncoder;
 		Map<String, Object> map = jdbc.queryForMap("SELECT matchingid FROM matchingaite");
 		return (Integer)map.get("matchingid");
 	}
+	
+	public void yokunai(int matchingid) {
+		jdbc.update("UPDATE matchings SET state = 4 WHERE matchingid = ?", matchingid);
+	};
 }

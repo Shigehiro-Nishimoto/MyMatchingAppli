@@ -32,12 +32,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</table>
 		</div>
 
+	<div class="row">
+		<div class="col-sm-6">
 			<form method="get" th:action="@{/matchingtohome}">
-				<button class="btn-link" type="submit">ホーム画面にいく</button>
+				<button class="btn" type="submit">ホーム画面にいく</button>
 			</form>
+		</div>
 
+		<div class="col-sm-6">
 			<form method="post" th:action="@{/logout}">
-				<button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト</button>
+				<button class="btn">ログアウト</button>
 			</form>
+		</div>
+	</div>
 	</body>
 </html>

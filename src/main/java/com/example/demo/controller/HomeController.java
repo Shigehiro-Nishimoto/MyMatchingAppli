@@ -79,9 +79,14 @@ public class HomeController {
 	public String Shiborichi(@ModelAttribute ShiborichiBox form, Model model){
 	int a =  form.getMin();
 	int b =  form.getMax();
-	System.out.println("minは、" + a);
-	System.out.println("maxは、" + b);
+	System.out.println("minは、" + a + "で、maxは" + b);
 	userService.mintomaxwokaku(a, b);
+	return "redirect:/home";
+	}
+
+	@GetMapping("/yokunai/{id}")
+	public String Yokunai(@ModelAttribute User form, Model model, @PathVariable("id") int matchingid) {
+    userService.Yokunai(matchingid);
 	return "redirect:/home";
 	}
 }

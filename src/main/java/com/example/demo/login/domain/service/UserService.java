@@ -198,4 +198,8 @@ public class UserService {
 	public int matchingidshirabe() {
 		return dao.matchingidshirabe();
 	}
+	
+	public void Yokunai(int matchingid) {
+	dao.yokunai(matchingid);
+	}
 }

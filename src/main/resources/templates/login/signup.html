@@ -6,13 +6,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<link th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet">
 		<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 		<link rel="stylesheet" href="hue.css">
-    <title>登録画面</title>
-</head>
-		<body>
+		<link th:href="@{/css/login.css}" rel="stylesheet"></link>
+    	<title>登録画面</title>
+	</head>
+	<body class="text-center">
+	<div class="row">
+	<div class="col-sm-3"></div>
     <div class="col-sm-6">
-        <div class="page-header">
-            <h1>ユーザー登録画面</h1>
+    <div class="page-header">
+            <h1>JOIN</h1>
         </div>
+        <div class="stripe">
+		<div class="stripe-inner">
         <form method="post" th:action="@{/signup}" th:object="${signupBox}">
             <table class="table table-bordered table-hover">
                 <!-- ユーザーIDの入力エリア -->
@@ -105,10 +110,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                     <span th:text="${error.message}">Error message</span>
                 </li>
             </ul>
-            <!-- ユーザー登録ボタン -->
-            <button class="btn btn-primary" type="submit">ユーザー登録</button>
+            <button class="btn btn-warning" type="submit">ユーザー登録</button>
         </form>
     </div>
+    </div>
+    </div>
+	<div class="col-sm-3"></div>
+	</div>
     	<form method="get" th:action="@{/tologin}">
 			<button class="btn-link" type="submit">ログイン画面へ</button>
 		</form>

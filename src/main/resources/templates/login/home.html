@@ -19,66 +19,78 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <button class="btn btn-warning" type="submit">絞り込む！</button>
 </form>
 
-		<div th:fragment="userList_contents">
-	<table class="table table-bordered table-hover table-striped">
-	<tr>
-		<th class="info col-sm-2">名前</th>
-		<th class="info col-sm-2">年齢</th>
-		<th class="info col-sm-2">状態</th>
-		<th class="info col-sm-2">いいねボタン</th>
-		<th class="info col-sm-2">いいね解除ボタン</th>
-		</tr>
-		<tr th:each="user : ${userList}">
-		<td th:text="${user.name} + 'さん'"></td>
-		<td th:text="${user.age} + '歳'"></td>
-		<td>
-		<span th:if="${user.shukantekistate == 0}">
-		お互いにいいねしていません。
-		</span>
-		<span th:if="${user.shukantekistate == 1}">
-		あなたのみいいねしています。
-		</span>
-		<span th:if="${user.shukantekistate == 2}">
-		相手のみいいねしています。
-		</span>
-		</td>
-		<td>
-		<span th:if="${user.shukantekistate == 0}">
-			<a class="btn btn-primary" type="submit" th:href="@{'/iineshita/' + ${user.matchingid}}">
-			いいねする
+	<div th:fragment="userList_contents">
+		<table class="table table-bordered table-hover table-striped">
+			<tr>
+			<th class="info col-sm-2">名前</th>
+			<th class="info col-sm-2">年齢</th>
+			<th class="info col-sm-2">状態</th>
+			<th class="info col-sm-2">いいねボタン</th>
+			<th class="info col-sm-2">いいね解除ボタン</th>
+			<th class="info col-sm-2">よくないボタン</th>
+			</tr>
+			<tr th:each="user : ${userList}">
+			<td th:text="${user.name} + 'さん'"></td>
+			<td th:text="${user.age} + '歳'"></td>
+			<td>
+			<span th:if="${user.shukantekistate == 0}">
+			お互いにいいねしていません。
+			</span>
+			<span th:if="${user.shukantekistate == 1}">
+			あなたのみいいねしています。
+			</span>
+			<span th:if="${user.shukantekistate == 2}">
+			相手のみいいねしています。
+			</span>
+			</td>
+			<td>
+			<span th:if="${user.shukantekistate == 0}">
+				<a class="btn btn-primary" type="submit" th:href="@{'/iineshita/' + ${user.matchingid}}">
+				いいねする
+				</a>
+			</span>
+			<span th:if="${user.shukantekistate == 2}">
+				<a class="btn btn-primary"  type="submit" th:href="@{'/iineshita/' + ${user.matchingid}}">
+				いいねする
+				</a>
+			</span>
+			</td>
+			<td>
+			<span th:if="${user.shukantekistate == 1}">
+				<a class="btn btn-primary"  type="submit" th:href="@{'/iineshitakaijo/' + ${user.matchingid}}">
+				いいね解除する
+				</a>
+			</span>
+			</td>
+			<td>
+			<a class="btn btn-primary"  type="submit" th:href="@{'/yokunai/' + ${user.matchingid}}">
+			よくないする
 			</a>
-		</span>
-		<span th:if="${user.shukantekistate == 2}">
-			<a class="btn btn-primary"  type="submit" th:href="@{'/iineshita/' + ${user.matchingid}}">
-			いいねする
-			</a>
-		</span>
-		</td>
-		<td>
-		<span th:if="${user.shukantekistate == 1}">
-			<a class="btn btn-primary"  type="submit" th:href="@{'/iineshitakaijo/' + ${user.matchingid}}">
-			いいね解除する
-			</a>
-		</span>
-		</td>
-		</tr>
-	</table>
+			</td>
+			</tr>
+		</table>
 	</div>
 
-		<form method="post" th:action="@{/logout}">
-		<button class="btn btn-link pull-right navbar-brand" type="submit">
-		ログアウト
-		</button>
-		</form>
-
+	<div class="row">
+	<div class="col-sm-4">
 		<form method="get" th:action="@{/hometomatching}">
-		<button class="btn-link" type="submit">マッチング画面にいく
-		</button>
+			<button class="btn" type="submit">マッチング画面にいく</button>
 		</form>
+	</div>
 		
+	<div class="col-sm-4">
 		<form method="get" th:action="@{/hometoupload}">
-		<button class="btn-link" type="submit">画像アップロード画面にいく
-		</button>
+			<button class="btn" type="submit">画像アップロード画面にいく</button>
 		</form>
+	</div>
+		
+	<div class="col-sm-4">
+		<form method="post" th:action="@{/logout}">
+			<button class="btn" type="submit">
+				ログアウト
+			</button>
+		</form>
+	</div>
+	</div>
 	</body>
 </html>
