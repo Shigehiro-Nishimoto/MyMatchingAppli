@@ -88,19 +88,19 @@ public class MessageController extends HttpServlet {
 
 	@GetMapping("/messagetomatching")
 	public String Messagetomatching(Model model) {
-	//マッチング画面にリダイレクト
-	model.addAttribute("contents", "login/home :: userList_contents");
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String mailaddressnow = auth.getName();
-	List<User> userList = userService.selectAftermatching(mailaddressnow);
-	model.addAttribute("userList", userList);
-	userService.LeaveMessageGamen();
-	return "login/matching";
+		//マッチング画面にリダイレクト
+		model.addAttribute("contents", "login/home :: userList_contents");
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String mailaddressnow = auth.getName();
+		List<User> userList = userService.selectAftermatching(mailaddressnow);
+		model.addAttribute("userList", userList);
+		userService.LeaveMessageGamen();
+		return "login/matching";
 	}
 
 	//■■書き込みがなされた時のルート■■
 	 @PostMapping("/newmessage")
-	    public String NewMessage(@ModelAttribute  @Validated MessageBox form, BindingResult bindingResult, Model model) {
+	 public String NewMessage(@ModelAttribute  @Validated MessageBox form, BindingResult bindingResult, Model model) {
 	        if (bindingResult.hasErrors()) {
 	        System.out.println("入力チェックにひっかかりました。");
 	        return getMessage(form, model);

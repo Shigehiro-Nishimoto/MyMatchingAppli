@@ -4,7 +4,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 	<head>
 		<meta charset="UTF-8">
-		<link th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet">
 		<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 		<title>ホーム</title>
 		</head>
@@ -44,26 +44,21 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 			</span>
 			</td>
 			<td>
-			<span th:if="${user.shukantekistate == 0}">
-				<a class="btn btn-primary" type="submit" th:href="@{'/iineshita/' + ${user.matchingid}}">
-				いいねする
-				</a>
-			</span>
-			<span th:if="${user.shukantekistate == 2}">
-				<a class="btn btn-primary"  type="submit" th:href="@{'/iineshita/' + ${user.matchingid}}">
+			<span th:if="${user.shukantekistate == 0 || user.shukantekistate == 2}">
+				<a class="btn btn-primary"  type="submit" th:href="@{'/iineshita/' + ${user.matchingid} +  '/' + ${min} +  '/' + ${max} + '/' + ${shibotteru}}">
 				いいねする
 				</a>
 			</span>
 			</td>
 			<td>
 			<span th:if="${user.shukantekistate == 1}">
-				<a class="btn btn-primary"  type="submit" th:href="@{'/iineshitakaijo/' + ${user.matchingid}}">
+				<a class="btn btn-primary"  type="submit" th:href="@{'/iineshitakaijo/' + ${user.matchingid} +  '/' + ${min} +  '/' + ${max} + '/' + ${shibotteru}}">
 				いいね解除する
 				</a>
 			</span>
 			</td>
 			<td>
-			<a class="btn btn-primary"  type="submit" th:href="@{'/yokunai/' + ${user.matchingid}}">
+			<a class="btn btn-primary"  type="submit" th:href="@{'/yokunai/' + ${user.matchingid} +  '/' + ${min} +  '/' + ${max} + '/' + ${shibotteru}}">
 			よくないする
 			</a>
 			</td>

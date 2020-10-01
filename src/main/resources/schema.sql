@@ -33,10 +33,3 @@ messagecontent VARCHAR(100)
 CREATE TABLE IF NOT EXISTS matchingaite(
 matchingid INT
 );
-
-/*ネンレイシボリコミ*/
-
-CREATE TABLE IF NOT EXISTS shiborichi(
-min int,
-max int
-);

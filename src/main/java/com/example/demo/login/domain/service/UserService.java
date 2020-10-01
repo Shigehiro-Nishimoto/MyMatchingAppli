@@ -191,10 +191,6 @@ public class UserService {
 		return dao.shuusei(written, number);
 	}
 	
-	public int mintomaxwokaku(int min, int max) {
-		return dao.mintomaxwokaku(min, max);
-	}
-		
 	public int matchingidshirabe() {
 		return dao.matchingidshirabe();
 	}

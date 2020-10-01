@@ -37,16 +37,16 @@ public class MatchingController {
 
 	@PostMapping("/tomessage")
 	public String Tomessage(HttpServletRequest request, @ModelAttribute MessageBox form, Model model) {
-	model.addAttribute("contents", "login/message :: messagetoShow_contents");
-	int matchingid = Integer.parseInt(request.getParameter("matchingid"));
-	List<Message> messagetoShow = userService.takeMessage(matchingid);
-	model.addAttribute("messagetoShow", messagetoShow);
-	
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String mailaddressnow = auth.getName();
-	String hisname = userService.Hisname(matchingid, mailaddressnow);
-	model.addAttribute("hisname", hisname);
-	model.addAttribute("shuuseichuunanokana", false);
-	return "login/message";
+		model.addAttribute("contents", "login/message :: messagetoShow_contents");
+		int matchingid = Integer.parseInt(request.getParameter("matchingid"));
+		List<Message> messagetoShow = userService.takeMessage(matchingid);
+		model.addAttribute("messagetoShow", messagetoShow);
+		
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String mailaddressnow = auth.getName();
+		String hisname = userService.Hisname(matchingid, mailaddressnow);
+		model.addAttribute("hisname", hisname);
+		model.addAttribute("shuuseichuunanokana", false);
+		return "login/message";
 	}
 }

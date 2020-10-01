@@ -64,30 +64,16 @@ PasswordEncoder passwordEncoder;
 	//●●マッチング表のデータを全て取得するメソッド●●（年齢による絞り込みを毎回行う）
 	@Override
 	public List<Map<String, Object>> getallfromMatching() throws DataAccessException {
-    	Map<String, Object> mintomax = jdbc.queryForMap("SELECT min, max FROM shiborichi");
-		int min = (Integer)mintomax.get("min");
-		int max = (Integer)mintomax.get("max");
-        Calendar mincalender = Calendar.getInstance();
-        Calendar maxcalender = Calendar.getInstance();
-        mincalender.add(Calendar.YEAR, -min);
-        maxcalender.add(Calendar.YEAR, -max);
-        Date min1 = mincalender.getTime();
-        Date max1 = maxcalender.getTime();
-        
-        System.out.println(min1);
-        System.out.println(max1);
-		
         //ログイン者の性別を知る。
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String mailaddress = auth.getName();
     	Map<String, Object> sexmap = jdbc.queryForMap("SELECT sex FROM members WHERE mailaddress = ?", mailaddress);
     	boolean sex = (boolean)sexmap.get("sex");
-    	
     	List<Map<String, Object>> getList = new ArrayList();
     	if(sex == true) {
-		getList = jdbc.queryForList("SELECT * FROM matchings INNER JOIN members ON matchings.femaleid = members.id WHERE members.birthday > ? AND members.birthday < ?", max1, min1);
+		getList = jdbc.queryForList("SELECT * FROM matchings");
     	}else {
-    	getList = jdbc.queryForList("SELECT * FROM matchings INNER JOIN members ON matchings.maleid = members.id WHERE members.birthday > ? AND members.birthday < ?", max1, min1);
+    	getList = jdbc.queryForList("SELECT * FROM matchings");
     	}
 		return getList;
 		}
@@ -276,10 +262,6 @@ PasswordEncoder passwordEncoder;
 	public int shuusei(String written, int number) {
 	int matchingid = CheckMatchingid();
 	return jdbc.update("UPDATE message SET messagecontent = ? WHERE matchingid = ? AND number = ?", written, matchingid, number);
-	}
-	
-	public int mintomaxwokaku(int min, int max) {
-		return jdbc.update("UPDATE shiborichi SET min = ?, max = ?", min, max);
 	}
 	
 	public int matchingidshirabe() {
